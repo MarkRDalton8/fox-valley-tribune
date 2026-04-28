@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fox Valley Tribune</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; padding: 0; background: #fff; }
+      a { color: inherit; }
+      /* Piano paywall fade */
+      .piano-container--active { position: relative; }
+      .piano-container--active::before {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 0; right: 0;
+        height: 180px;
+        pointer-events: none;
+        background-image: linear-gradient(to top, #ffffff 0%, #ffffff 20%, rgba(255,255,255,0) 100%);
+      }
+      .piano-container--active ~ * { display: none; }
+    </style>
+
+    <!-- Piano SDK -->
+    <script>(function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})("https://experience.tinypass.com/xbuilder/experience/load?aid=QiNgMM49pu");</script>
+    <script>
+      var tp = window.tp || [];
+      tp.push(["setAid", "QiNgMM49pu"]);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
