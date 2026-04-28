@@ -44,7 +44,15 @@ export default function Layout({ children }) {
   const handleLogin = () => {
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
-      window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
+      window.tp.pianoId.show({
+        screen: 'login',
+        displayMode: 'modal',
+        loggedIn: function (data) {
+          window.tp.pianoId.hide();
+          setIsLoggedIn(true);
+          setUserName(data.user.given_name || data.user.email || 'Subscriber');
+        },
+      });
     }]);
   };
 
