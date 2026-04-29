@@ -35,6 +35,7 @@ export default function Layout({ children }) {
       window.tp.pianoId.hide();
       setIsLoggedIn(true);
       setUserName(data.user.given_name || data.user.email || 'Subscriber');
+      navigate('/');
     }]);
 
     tp.push(['addHandler', 'checkoutComplete', function () {
@@ -52,6 +53,7 @@ export default function Layout({ children }) {
           window.tp.pianoId.hide();
           setIsLoggedIn(true);
           setUserName(data.user.given_name || data.user.email || 'Subscriber');
+          navigate('/');
         },
       });
     }]);
