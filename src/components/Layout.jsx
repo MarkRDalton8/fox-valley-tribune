@@ -32,6 +32,7 @@ export default function Layout({ children }) {
     }]);
 
     tp.push(['addHandler', 'loginSuccess', function (data) {
+      window.tp.pianoId.hide();
       setIsLoggedIn(true);
       setUserName(data.user.given_name || data.user.email || 'Subscriber');
     }]);
