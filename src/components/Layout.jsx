@@ -63,6 +63,7 @@ export default function Layout({ children }) {
     }
     setIsLoggedIn(false);
     setUserName('');
+    navigate('/');
   };
 
   return (
