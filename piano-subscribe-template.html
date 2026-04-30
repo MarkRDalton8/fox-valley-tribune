@@ -24,28 +24,13 @@
       <li><span class="fvt-check">✓</span> Cancel anytime — no commitment required</li>
     </ul>
 
-    <button class="fvt-btn" onclick="fvtSubscribe()">Subscribe Now</button>
+    <button class="fvt-btn" onclick="window.fvtSubscribe ? fvtSubscribe() : (function(){ window.tp=window.tp||[]; window.tp.push(['init',function(){ window.tp.offer.show({offerId:'OFSKQS2JDQIS',displayMode:'modal'}); }]); })()">Subscribe Now</button>
   </div>
 
   <p class="fvt-signin">
     Already a subscriber?&nbsp;
-    <button class="fvt-signin-link" onclick="fvtSignIn()">Sign in here</button>
+    <button class="fvt-signin-link" onclick="window.fvtSignIn ? fvtSignIn() : (function(){ window.tp=window.tp||[]; window.tp.push(['init',function(){ window.tp.pianoId.show({screen:'register',displayMode:'modal'}); }]); })()">Sign in here</button>
   </p>
 
 </div>
 
-<script>
-  function fvtSubscribe() {
-    window.tp = window.tp || [];
-    window.tp.push(['init', function () {
-      window.tp.offer.show({ offerId: 'OFSKQS2JDQIS', displayMode: 'modal' });
-    }]);
-  }
-
-  function fvtSignIn() {
-    window.tp = window.tp || [];
-    window.tp.push(['init', function () {
-      window.tp.pianoId.show({ screen: 'register', displayMode: 'modal' });
-    }]);
-  }
-</script>
