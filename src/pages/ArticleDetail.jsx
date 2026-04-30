@@ -96,6 +96,54 @@ export default function ArticleDetail() {
           )}
         </div>
 
+        {/* Sports newsletter signup */}
+        {section === 'sports' && (
+          <div style={{
+            background: COLORS.sectionSports, color: 'white',
+            borderRadius: 2, padding: '36px 40px', marginTop: 56,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: 32, flexWrap: 'wrap',
+          }}>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', opacity: 0.75, marginBottom: 8 }}>
+                Free Newsletter
+              </div>
+              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 26, fontWeight: 700, margin: '0 0 6px', lineHeight: 1.2 }}>
+                Fox Valley Sports News
+              </h3>
+              <p style={{ fontSize: 14, opacity: 0.85, margin: 0, lineHeight: 1.6 }}>
+                Scores, standouts, and stories from local high school and youth sports — delivered every Friday.
+              </p>
+            </div>
+            <form
+              onSubmit={e => { e.preventDefault(); const el = e.target.querySelector('input'); if (el.value) { el.value = ''; el.placeholder = 'Thanks — you\'re signed up!'; } }}
+              style={{ display: 'flex', gap: 0, flexShrink: 0 }}
+            >
+              <input
+                type="email"
+                required
+                placeholder="Your email address"
+                style={{
+                  padding: '12px 16px', fontSize: 14, border: 'none',
+                  borderRadius: '2px 0 0 2px', width: 240, outline: 'none',
+                  fontFamily: "inherit",
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  background: COLORS.dark, color: 'white', border: 'none',
+                  padding: '12px 20px', fontSize: 13, fontWeight: 800,
+                  cursor: 'pointer', letterSpacing: '1px', textTransform: 'uppercase',
+                  borderRadius: '0 2px 2px 0', whiteSpace: 'nowrap',
+                }}
+              >
+                Sign Up
+              </button>
+            </form>
+          </div>
+        )}
+
         {/* Back link (only when full article shown) */}
         {showFull && (
           <div style={{ borderTop: `1px solid ${COLORS.border}`, marginTop: 48, paddingTop: 24 }}>
