@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { AccessBadge } from '../components/SharedComponents';
 import { COLORS, ARTICLES, SECTION_COLORS, PIANO_CONFIG } from '../data';
 
 const PARA_STYLE = {
@@ -66,7 +65,6 @@ export default function ArticleDetail() {
             <span style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
               {article.category}
             </span>
-            <AccessBadge locked={article.locked} hasAccess={hasAccess} />
           </div>
           <h1 style={{
             fontFamily: "'Playfair Display', Georgia, serif",

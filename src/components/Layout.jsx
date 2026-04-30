@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { COLORS } from '../data';
+import SubscribeRibbon from './SubscribeRibbon';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -14,6 +15,7 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
+  const [hasAccess, setHasAccess] = useState(false);
 
   const isActive = (to) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
@@ -28,6 +30,12 @@ export default function Layout({ children }) {
       if (user) {
         setIsLoggedIn(true);
         setUserName(user.given_name || user.email || 'Subscriber');
+
+        window.tp.api.callApi('/access/list', {}, function (response) {
+          if (response?.data?.length > 0) {
+            setHasAccess(true);
+          }
+        });
       }
     }]);
 
@@ -35,7 +43,13 @@ export default function Layout({ children }) {
       window.tp.pianoId.hide();
       setIsLoggedIn(true);
       setUserName(data.user.given_name || data.user.email || 'Subscriber');
-      navigate('/');
+      navigate('/account');
+
+      window.tp.api.callApi('/access/list', {}, function (response) {
+        if (response?.data?.length > 0) {
+          setHasAccess(true);
+        }
+      });
     }]);
 
     tp.push(['addHandler', 'checkoutComplete', function () {
@@ -47,13 +61,19 @@ export default function Layout({ children }) {
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
       window.tp.pianoId.show({
-        screen: 'login',
+        screen: 'register',
         displayMode: 'modal',
         loggedIn: function (data) {
-          window.tp.pianoId.hide();
+          try { window.tp.pianoId.hide(); } catch (e) {}
           setIsLoggedIn(true);
           setUserName(data.user.given_name || data.user.email || 'Subscriber');
-          navigate('/');
+          navigate('/account');
+
+          window.tp.api.callApi('/access/list', {}, function (response) {
+            if (response?.data?.length > 0) {
+              setHasAccess(true);
+            }
+          });
         },
       });
     }]);
@@ -65,6 +85,7 @@ export default function Layout({ children }) {
     }
     setIsLoggedIn(false);
     setUserName('');
+    setHasAccess(false);
     navigate('/');
   };
 
@@ -151,6 +172,8 @@ export default function Layout({ children }) {
           </Link>
         </div>
       </nav>
+
+      <SubscribeRibbon />
 
       {/* Content */}
       <main style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>

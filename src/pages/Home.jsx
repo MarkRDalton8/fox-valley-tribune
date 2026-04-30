@@ -1,6 +1,5 @@
 import Layout from '../components/Layout';
 import { ArticleCard } from '../components/SharedComponents';
-import SubscribeRibbon from '../components/SubscribeRibbon';
 import { COLORS, ARTICLES } from '../data';
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
 
   return (
     <Layout>
-      <SubscribeRibbon />
       {/* Breaking news bar */}
       <div style={{
         background: COLORS.primary, color: 'white',

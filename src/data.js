@@ -17,7 +17,7 @@ export const SECTION_COLORS = {
 
 export const PIANO_CONFIG = {
   AID: 'QiNgMM49pu',
-  OFFER_ID: null,               // Set to your Piano offer ID: "OFXXXXXXXX"
+  OFFER_ID: 'OFSKQS2JDQIS',
   SUBSCRIBER_RESOURCE_ID: null, // Set to your subscriber resource ID: "RXXXXXXXX"
 };
 
@@ -31,7 +31,7 @@ export const ARTICLES = [
     byline: 'Tribune Staff',
     date: 'April 28, 2026',
     category: 'Government',
-    excerpt: 'The Kane County Board voted 18-3 Tuesday to approve a $2.3 million road repair budget, prioritizing 14 miles of deteriorating county roads ahead of summer construction season.',
+    excerpt: 'The Kane County Board voted 18-3 Tuesday to approve a $2.3 million road repair budget for the 2026 fiscal year, prioritizing 14 miles of deteriorating county roads that officials say have reached the end of their useful life. The measure allocates $1.4 million for resurfacing projects in the eastern district and $900,000 for drainage improvements on Route 47 north of Huntley. Work is expected to begin in late May and wrap up before first frost. Three board members voted against the measure, calling for more competitive contract solicitation before approving the spending.',
     body: [
       'The Kane County Board voted 18-3 Tuesday to approve a $2.3 million road repair budget for the 2026 fiscal year, prioritizing 14 miles of deteriorating county roads that officials say have reached the end of their useful life.',
       'The measure, which passed after three weeks of public comment, allocates $1.4 million for resurfacing projects on rural county roads in the eastern district and $900,000 for drainage improvements on Route 47 north of Huntley.',

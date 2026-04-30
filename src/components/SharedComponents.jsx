@@ -1,31 +1,6 @@
 import { Link } from 'react-router-dom';
 import { COLORS, SECTION_COLORS } from '../data';
 
-export const AccessBadge = ({ locked, hasAccess }) => {
-  const base = {
-    display: 'inline-flex', alignItems: 'center', gap: 4,
-    padding: '3px 10px', borderRadius: 2, fontSize: 11, fontWeight: 700,
-    letterSpacing: '0.6px', textTransform: 'uppercase',
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-  };
-
-  if (!locked) return (
-    <span style={{ ...base, background: 'rgba(27,94,32,0.08)', color: '#1b5e20', border: '1px solid rgba(27,94,32,0.2)' }}>
-      ✓ Free
-    </span>
-  );
-  if (hasAccess) return (
-    <span style={{ ...base, background: 'rgba(27,94,32,0.08)', color: '#1b5e20', border: '1px solid rgba(27,94,32,0.2)' }}>
-      ✓ Subscriber
-    </span>
-  );
-  return (
-    <span style={{ ...base, background: 'rgba(196,18,48,0.07)', color: COLORS.primary, border: '1px solid rgba(196,18,48,0.18)' }}>
-      🔒 Subscribers Only
-    </span>
-  );
-};
-
 export const ArticleCard = ({ article, featured = false }) => {
   const sectionColor = SECTION_COLORS[article.section] || COLORS.dark;
 
@@ -41,7 +16,6 @@ export const ArticleCard = ({ article, featured = false }) => {
             <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
               {article.category}
             </span>
-            <AccessBadge locked={article.locked} />
           </div>
           <h2 style={{
             fontFamily: "'Playfair Display', Georgia, serif",
@@ -66,11 +40,10 @@ export const ArticleCard = ({ article, featured = false }) => {
         borderLeft: `3px solid ${sectionColor}`,
         padding: '18px 22px',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
           <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
             {article.category}
           </span>
-          <AccessBadge locked={article.locked} />
         </div>
         <h3 style={{
           fontFamily: "'Playfair Display', Georgia, serif",

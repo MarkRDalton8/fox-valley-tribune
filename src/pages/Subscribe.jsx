@@ -7,6 +7,7 @@ const BENEFITS = [
   'Opinion, editorials, and commentary',
   'Breaking news alerts',
   'Digital e-edition of the print paper',
+  'Cancel anytime — no commitment required',
 ];
 
 export default function Subscribe() {
@@ -24,7 +25,7 @@ export default function Subscribe() {
   const handleSignIn = () => {
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
-      window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
+      window.tp.pianoId.show({ screen: 'register', displayMode: 'modal' });
     }]);
   };
 
