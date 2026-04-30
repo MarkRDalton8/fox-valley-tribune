@@ -1,0 +1,227 @@
+<!--
+  Fox Valley Tribune — Subscribe Page Template
+  Piano content fields:
+    eyebrow         — label above headline (e.g. "Support Local Journalism")
+    headline        — main headline (e.g. "Stay Informed. Stay Connected.")
+    description     — paragraph below headline
+    plan_label      — offer card label (e.g. "Digital Access")
+    price_whole     — dollar amount before decimal (e.g. "9")
+    price_decimal   — cents (e.g. ".99")
+    price_period    — billing period (e.g. "/mo")
+    price_note      — note below price (e.g. "Cancel anytime")
+    benefit_1 … benefit_6 — bullet items
+    button_text     — CTA button label (e.g. "Subscribe Now")
+    offer_id        — Piano offer ID (e.g. "OFSKQS2JDQIS")
+    signin_prompt   — text before sign-in link (e.g. "Already a subscriber?")
+    signin_link_text — sign-in link label (e.g. "Sign in here")
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+  .fvt-subscribe {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1a1a1a;
+    box-sizing: border-box;
+  }
+
+  .fvt-subscribe *, .fvt-subscribe *::before, .fvt-subscribe *::after {
+    box-sizing: border-box;
+  }
+
+  /* Header */
+  .fvt-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .fvt-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #C41230;
+    margin-bottom: 16px;
+  }
+
+  .fvt-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .fvt-description {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* Offer card */
+  .fvt-card {
+    border: 2px solid #C41230;
+    border-radius: 2px;
+    padding: 40px 48px;
+    margin-bottom: 24px;
+  }
+
+  .fvt-plan-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .fvt-plan-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #C41230;
+    margin-bottom: 12px;
+  }
+
+  .fvt-price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  .fvt-price-decimal {
+    font-size: 28px;
+    font-weight: 400;
+  }
+
+  .fvt-price-period {
+    font-size: 18px;
+    font-weight: 400;
+    color: #888;
+  }
+
+  .fvt-price-note {
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+  }
+
+  /* Benefits list */
+  .fvt-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+  }
+
+  .fvt-benefits li {
+    padding: 10px 0;
+    border-bottom: 1px solid #E0E0E0;
+    font-size: 15px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fvt-check {
+    color: #1b5e20;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* CTA button */
+  .fvt-btn {
+    width: 100%;
+    background: #C41230;
+    color: white !important;
+    border: none;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    border-radius: 0;
+  }
+
+  .fvt-btn:hover {
+    background: #a50e28;
+  }
+
+  /* Sign-in footer */
+  .fvt-signin {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin: 0;
+  }
+
+  .fvt-signin-link {
+    background: none;
+    border: none;
+    color: #C41230;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+</style>
+
+<div class="fvt-subscribe">
+
+  <div class="fvt-header">
+    <div class="fvt-eyebrow">{{eyebrow}}</div>
+    <h1 class="fvt-headline">{{headline}}</h1>
+    <p class="fvt-description">{{description}}</p>
+  </div>
+
+  <div class="fvt-card">
+    <div class="fvt-plan-header">
+      <div class="fvt-plan-label">{{plan_label}}</div>
+      <div class="fvt-price">
+        ${{price_whole}}<span class="fvt-price-decimal">{{price_decimal}}</span><span class="fvt-price-period">{{price_period}}</span>
+      </div>
+      <div class="fvt-price-note">{{price_note}}</div>
+    </div>
+
+    <ul class="fvt-benefits">
+      <li><span class="fvt-check">✓</span> {{benefit_1}}</li>
+      <li><span class="fvt-check">✓</span> {{benefit_2}}</li>
+      <li><span class="fvt-check">✓</span> {{benefit_3}}</li>
+      <li><span class="fvt-check">✓</span> {{benefit_4}}</li>
+      <li><span class="fvt-check">✓</span> {{benefit_5}}</li>
+      <li><span class="fvt-check">✓</span> {{benefit_6}}</li>
+    </ul>
+
+    <button class="fvt-btn" onclick="fvtSubscribe()">{{button_text}}</button>
+  </div>
+
+  <p class="fvt-signin">
+    {{signin_prompt}}&nbsp;
+    <button class="fvt-signin-link" onclick="fvtSignIn()">{{signin_link_text}}</button>
+  </p>
+
+</div>
+
+<script>
+  function fvtSubscribe() {
+    var offerId = '{{offer_id}}';
+    window.tp = window.tp || [];
+    window.tp.push(['init', function () {
+      window.tp.offer.show({ offerId: offerId, displayMode: 'modal' });
+    }]);
+  }
+
+  function fvtSignIn() {
+    window.tp = window.tp || [];
+    window.tp.push(['init', function () {
+      window.tp.pianoId.show({ screen: 'register', displayMode: 'modal' });
+    }]);
+  }
+</script>
