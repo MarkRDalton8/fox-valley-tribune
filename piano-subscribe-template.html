@@ -1,36 +1,35 @@
-<div class="fvt-subscribe">
+<div id="fvtOutside">
+  <div id="fvtInside">
 
-  <div class="fvt-header">
-    <div class="fvt-eyebrow">Support Local Journalism</div>
-    <h1 class="fvt-headline">Stay Informed.<br>Stay Connected.</h1>
-    <p class="fvt-description">The Fox Valley Tribune has covered this community since 1989. Your subscription keeps local reporters in the field and our neighbors informed.</p>
-  </div>
+    <div id="fvtEyebrow">Support Local Journalism</div>
+    <h1 id="fvtHeadline">[%% headline %%]</h1>
+    <p id="fvtDescription">[%% description %%]</p>
 
-  <div class="fvt-card">
-    <div class="fvt-plan-header">
-      <div class="fvt-plan-label">Digital Access</div>
-      <div class="fvt-price">
-        $9<span class="fvt-price-decimal">.99</span><span class="fvt-price-period">/mo</span>
-      </div>
-      <div class="fvt-price-note">Cancel anytime</div>
+    <div id="fvtPlanLabel">Digital Access</div>
+
+    <div id="fvtPrice">
+      $9<span id="fvtPriceDecimal">.99</span><span id="fvtPricePeriod">/mo</span>
+    </div>
+    <div id="fvtPriceNote">Cancel anytime</div>
+
+    <div id="fvtBenefits">
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit1 %%]</span></div>
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit2 %%]</span></div>
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit3 %%]</span></div>
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit4 %%]</span></div>
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit5 %%]</span></div>
+      <div class="fvtBenefit"><span class="fvtCheck">✓</span><span>[%% benefit6 %%]</span></div>
     </div>
 
-    <ul class="fvt-benefits">
-      <li><span class="fvt-check">✓</span> Unlimited access to all subscriber-only articles</li>
-      <li><span class="fvt-check">✓</span> Full in-depth sports coverage and stats</li>
-      <li><span class="fvt-check">✓</span> Opinion, editorials, and commentary</li>
-      <li><span class="fvt-check">✓</span> Breaking news alerts</li>
-      <li><span class="fvt-check">✓</span> Digital e-edition of the print paper</li>
-      <li><span class="fvt-check">✓</span> Cancel anytime — no commitment required</li>
-    </ul>
+    <div ng-repeat="term in terms">
+      <button ng-show="[%% buttonShow %%]" ng-click="startCheckout('OFSKQS2JDQIS')" id="fvtBtn">
+        [%% buttonText %%]
+      </button>
+    </div>
 
-    <button class="fvt-btn" onclick="window.fvtSubscribe ? fvtSubscribe() : (function(){ window.tp=window.tp||[]; window.tp.push(['init',function(){ window.tp.offer.show({offerId:'OFSKQS2JDQIS',displayMode:'modal'}); }]); })()">Subscribe Now</button>
+    <p id="fvtSignin">
+      Already a subscriber?&nbsp;<a id="fvtSigninLink" href="/account">Sign in here</a>
+    </p>
+
   </div>
-
-  <p class="fvt-signin">
-    Already a subscriber?&nbsp;
-    <button class="fvt-signin-link" onclick="window.fvtSignIn ? fvtSignIn() : (function(){ window.tp=window.tp||[]; window.tp.push(['init',function(){ window.tp.pianoId.show({screen:'register',displayMode:'modal'}); }]); })()">Sign in here</button>
-  </p>
-
 </div>
-
