@@ -173,7 +173,7 @@ export default function Layout({ children }) {
         </div>
       </nav>
 
-      <SubscribeRibbon />
+      {!location.pathname.startsWith('/sports') && <SubscribeRibbon />}
 
       {/* Content */}
       <main style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>
