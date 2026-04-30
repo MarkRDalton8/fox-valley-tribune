@@ -65,7 +65,6 @@ export default function Home() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {latestSports.map(a => <ArticleCard key={a.id} article={a} />)}
           </div>
-          <div className="piano-home-sports" style={{ marginTop: 14 }} />
         </div>
         <div>
           <SectionHeader label="Opinion" color={COLORS.sectionOpinion} />
@@ -74,6 +73,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <div className="piano-home-sports" style={{ marginTop: 32 }} />
     </Layout>
   );
 }
