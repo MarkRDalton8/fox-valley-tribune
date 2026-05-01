@@ -1,3 +1,150 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+  #fvtOutside {
+    display: flex;
+    padding: 12px;
+    align-items: flex-start;
+    border-radius: 2px;
+    background: #fff;
+    max-width: 620px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    box-sizing: border-box;
+  }
+
+  #fvtInside {
+    display: flex;
+    padding: 40px 48px;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+    border: 2px solid #C41230;
+    box-sizing: border-box;
+  }
+
+  #fvtEyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #C41230;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  #fvtHeadline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  #fvtDescription {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.75;
+    margin: 0 0 32px;
+    text-align: center;
+  }
+
+  #fvtPlanLabel {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #C41230;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  #fvtPrice {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+    text-align: center;
+  }
+
+  #fvtPriceDecimal {
+    font-size: 28px;
+    font-weight: 400;
+  }
+
+  #fvtPricePeriod {
+    font-size: 18px;
+    font-weight: 400;
+    color: #888;
+  }
+
+  #fvtPriceNote {
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  #fvtBenefits {
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .fvtBenefit {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #E0E0E0;
+    font-size: 15px;
+    color: #333;
+    gap: 12px;
+  }
+
+  .fvtCheck {
+    color: #1b5e20;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  #fvtBtn {
+    width: 100%;
+    background: #C41230;
+    color: #ffffff;
+    border: none;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: inherit;
+    border-radius: 0;
+    margin-bottom: 16px;
+  }
+
+  #fvtBtn:hover {
+    background: #a50e28;
+  }
+
+  #fvtSignin {
+    font-size: 13px;
+    color: #999;
+    margin: 0;
+    text-align: center;
+  }
+
+  #fvtSigninLink {
+    color: #C41230;
+    font-size: 13px;
+    text-decoration: underline;
+  }
+</style>
+
 <div id="fvtOutside">
   <div id="fvtInside">
 
@@ -6,7 +153,6 @@
     <p id="fvtDescription">[%% description %%]</p>
 
     <div id="fvtPlanLabel">Digital Access</div>
-
     <div id="fvtPrice">
       $9<span id="fvtPriceDecimal">.99</span><span id="fvtPricePeriod">/mo</span>
     </div>
@@ -22,7 +168,7 @@
     </div>
 
     <div ng-repeat="term in terms">
-      <button ng-show="[%% buttonShow %%]" ng-click="startCheckout('OFSKQS2JDQIS')" id="fvtBtn">
+      <button ng-show="[%% buttonShow %%]" ng-click="startCheckout(term.termId)" id="fvtBtn">
         [%% buttonText %%]
       </button>
     </div>
