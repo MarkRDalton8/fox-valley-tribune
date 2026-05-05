@@ -11,7 +11,14 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }) {
   const label = SECTION_LABELS[params.section] || params.section;
-  return { title: `${label} — Fox Valley Tribune` };
+  return {
+    title: `${label} — Fox Valley Tribune`,
+    openGraph: {
+      title: `${label} — Fox Valley Tribune`,
+      type: 'website',
+      url: `/${params.section}`,
+    },
+  };
 }
 
 export default function SectionPage({ params }) {

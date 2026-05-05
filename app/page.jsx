@@ -2,7 +2,14 @@ import { COLORS, ARTICLES } from '../lib/data';
 import { ArticleCard } from '../components/ArticleCard';
 import PianoInit from '../components/PianoInit';
 
-export const metadata = { title: 'Fox Valley Tribune — Local News for the Fox Valley' };
+export const metadata = {
+  title: 'Fox Valley Tribune — Local News for the Fox Valley',
+  openGraph: {
+    title: 'Fox Valley Tribune — Local News for the Fox Valley',
+    type: 'website',
+    url: '/',
+  },
+};
 
 export default function Home() {
   const featuredNews = ARTICLES.find(a => a.section === 'news' && a.featured);
