@@ -25,11 +25,26 @@
       .piano-container--active ~ * { display: none; }
     </style>
 
-    <!-- Piano SDK -->
+    <!-- Piano Composer -->
     <script>(function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})("https://experience.tinypass.com/xbuilder/experience/load?aid=QiNgMM49pu");</script>
     <script>
       var tp = window.tp || [];
       tp.push(["setAid", "QiNgMM49pu"]);
+    </script>
+
+    <!-- Piano Analytics -->
+    <script>
+      (function(_config) {
+        var script = document.createElement("script");
+        script.src = "https://tag.aticdn.net/piano-analytics.js";
+        script.async = true;
+        script.dataset.config = JSON.stringify(_config);
+        document.head.appendChild(script);
+      })({
+        site: 639124,
+        collectDomain: "https://fjqqzhr.pa-cd.com",
+        instantTracking: true
+      });
     </script>
 
     <!-- Piano ESP -->

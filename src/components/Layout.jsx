@@ -20,24 +20,9 @@ export default function Layout({ children }) {
   const isActive = (to) =>
     to === '/' ? location.pathname === '/' : location.pathname.startsWith(to);
 
+  // One-time setup: register Composer event handlers once, not on every navigation
   useEffect(() => {
     const tp = window.tp || [];
-
-    tp.push(['init', function () {
-      window.tp.experience.execute();
-
-      const user = window.tp.pianoId.getUser();
-      if (user) {
-        setIsLoggedIn(true);
-        setUserName(user.given_name || user.email || 'Subscriber');
-
-        window.tp.api.callApi('/access/list', {}, function (response) {
-          if (response?.data?.length > 0) {
-            setHasAccess(true);
-          }
-        });
-      }
-    }]);
 
     tp.push(['addHandler', 'loginSuccess', function (data) {
       window.tp.pianoId.hide();
@@ -55,6 +40,41 @@ export default function Layout({ children }) {
     tp.push(['addHandler', 'checkoutComplete', function () {
       navigate('/account');
     }]);
+  }, []);
+
+  // On every route change: re-execute Composer and send a Piano Analytics page view
+  useEffect(() => {
+    const tp = window.tp || [];
+
+    tp.push(['init', function () {
+      // Re-evaluate Composer experiences for the new page context
+      window.tp.experience.execute();
+
+      const user = window.tp.pianoId.getUser();
+      if (user) {
+        setIsLoggedIn(true);
+        setUserName(user.given_name || user.email || 'Subscriber');
+
+        window.tp.api.callApi('/access/list', {}, function (response) {
+          if (response?.data?.length > 0) {
+            setHasAccess(true);
+          }
+        });
+      }
+    }]);
+
+    // Send Piano Analytics page.display event on every SPA route change.
+    // instantTracking:true in the script tag fires automatically on initial
+    // HTML load; this call covers all subsequent client-side navigations.
+    if (window.pa) {
+      const parts = location.pathname.split('/').filter(Boolean);
+      const section = parts[0] || 'home';
+      const page = parts[1] || section;
+      window.pa.sendEvent('page.display', {
+        page: page,
+        page_chapter1: section,
+      });
+    }
   }, [location.pathname]);
 
   const handleLogin = () => {

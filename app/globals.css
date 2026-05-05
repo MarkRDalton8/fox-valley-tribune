@@ -1,0 +1,16 @@
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+a { color: inherit; }
+
+/* Piano paywall fade */
+.piano-container--active { position: relative; }
+.piano-container--active::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0; right: 0;
+  height: 180px;
+  pointer-events: none;
+  background-image: linear-gradient(to top, #ffffff 0%, #ffffff 20%, rgba(255,255,255,0) 100%);
+}
+.piano-container--active ~ * { display: none; }
