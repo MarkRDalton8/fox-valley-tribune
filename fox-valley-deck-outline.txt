@@ -1,0 +1,94 @@
+Fox Valley Tribune — Building a Demo Newspaper Site with Piano
+
+What We Built
+	A fully functional local news demo site built to showcase Piano's subscription, identity, and ESP capabilities
+	React + Vite front end, 10 seeded articles across News, Sports, and Opinion
+	Built entirely through conversation with Claude — no manual coding
+
+The Approach
+	Every feature was requested in plain language
+	Claude wrote the code, committed to GitHub, and explained what it did
+	Iterable — easy to refine, redirect, or reverse any decision mid-session
+
+Session 1: Initial Build (April 28)
+	Prompt: "Build a Fox Valley Tribune demo newspaper site with Piano Composer integration"
+	Delivered in a single commit: 15 files, full working site
+
+What Was Built in Session 1
+	Masthead, sticky nav, utility bar, footer
+	Home page: featured news, sports, and opinion sections
+	Section pages for News, Sports, Opinion
+	Article detail page with paywall fade on locked content
+	Subscribe page and My Account page
+	Piano SDK loaded on every page via index.html
+
+Piano Wiring — Session 1
+	Piano SDK initialized with AID on every route change
+	tp.experience.execute() fires on every page load
+	Locked articles show 2 paragraphs, then a piano-container div
+	Piano injects the paywall template into that container
+	Subscribe page calls tp.offer.show() — ready for an offer ID
+	My Account page calls tp.myaccount.show()
+
+Refining the Login Flow (April 28, continued)
+	Problem: nav didn't update after login without a page reload
+	Fix: added loggedIn callback to tp.pianoId.show() — nav updates instantly
+	Problem: Piano modal wasn't closing after login
+	Fix: added tp.pianoId.hide() to the loginSuccess handler
+	Problem: sign out and login weren't redirecting
+	Fix: added navigate('/') to both logout and login completion handlers
+
+Subscribe Ribbon (April 28)
+	Prompt: "Add a bottom banner that slides up after a few seconds prompting people to subscribe"
+	Slides up after 3 seconds
+	Dismisses with × button — stored in sessionStorage so it doesn't reappear
+	Subscribe Now button calls tp.offer.show() if an offer ID is set, otherwise routes to /subscribe
+
+Session 2: Subscription Flow + Piano Templates (April 29–30)
+	Ported login patterns from a second Piano demo site (GDPA Alliance)
+	Wired up a real offer ID
+	Added Piano template containers for editorial placements
+
+Upgrading the Login Pattern
+	Changed modal from login screen to register screen — handles both new and returning users in one flow
+	After login: user is immediately redirected to /account
+	Background call to /access/list checks whether user has an active subscription
+	hasAccess state added — cleared on logout
+	checkoutComplete handler also navigates to /account
+
+Wiring Up the Offer
+	Prompt: "Wire up the subscription page with offer ID OFSKQS2JDQIS"
+	Set OFFER_ID in the site config — one value, everything wired
+	Subscribe page was already calling tp.offer.show() conditionally
+	Setting the value activated the full Piano checkout flow instantly
+
+Piano Template Containers
+	Prompt: "Put a newsletter signup at the bottom of all three sports stories — actually make it a Piano container I can put a template in"
+	Result: div class="piano-sports-newsletter" — red background, Piano injects content
+	Prompt: "Create a container on the home page below the sports and opinion columns, full width"
+	Result: div class="piano-home-sports" — spans both columns, Piano injects content
+	No further code changes needed — marketing owns these placements going forward
+
+Piano ESP SDK
+	Prompt: "Is the Piano ESP integration script running on all pages?" — it wasn't
+	Pasted the ESP script tag into the chat
+	Added to index.html — active on every page immediately
+
+Subscribe Ribbon: Context-Aware Placement
+	Prompt: "Remove the subscribe bottom banner from the sports pages"
+	Sports pages use the Piano newsletter container instead
+	One-line conditional: ribbon suppressed on all /sports/* routes
+	Different calls to action for different editorial contexts
+
+Key Takeaways for the Team
+	Three config values wire up the full Piano stack: AID, Offer ID, ESP Hash ID
+	Piano ID, checkout, and access checks require only a few tp.push() calls — no backend
+	Named div containers let marketing place Piano templates anywhere without developer involvement
+	The register screen is the recommended Piano ID pattern — handles login and signup in one modal
+	Context-aware placements (ribbon vs. newsletter container) are a one-line conditional in the layout
+
+How We Worked
+	Every change was a plain-language request
+	Claude wrote, committed, and pushed — full GitHub history preserved
+	Decisions were easy to reverse: "change the offer back to $9.99" took 30 seconds
+	The transcript became documentation automatically
