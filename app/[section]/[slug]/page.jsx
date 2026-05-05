@@ -44,7 +44,7 @@ export default function ArticleDetail({ params }) {
     <>
       <PianoInit
         section={section}
-        tags={[section, article.category?.toLowerCase()].filter(Boolean)}
+        tags={article.tags || [section, article.category?.toLowerCase()].filter(Boolean)}
         contentCreator={article.byline}
       />
 
