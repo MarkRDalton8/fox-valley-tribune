@@ -76,7 +76,7 @@ ${bodyLines}
     featured: false,
   },`;
 
-  const updated = dataContent.replace(/\n\];$/, `\n\n${entry}\n];`);
+  const updated = dataContent.replace(/\n\];\n?$/, `\n\n${entry}\n];\n`);
   fs.writeFileSync(DATA_FILE, updated);
 }
 
