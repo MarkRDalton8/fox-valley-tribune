@@ -3,7 +3,7 @@ import { COLORS, ARTICLES, SECTION_COLORS, SECTION_LABELS, SECTION_TAGLINES } fr
 import { ArticleCard } from '../../components/ArticleCard';
 import PianoInit from '../../components/PianoInit';
 
-const VALID_SECTIONS = ['news', 'sports', 'opinion', 'local-politics'];
+const VALID_SECTIONS = ['news', 'sports', 'opinion', 'local-politics', 'lifestyle'];
 
 export function generateStaticParams() {
   return VALID_SECTIONS.map(section => ({ section }));

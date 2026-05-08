@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { href: '/sports', label: 'Sports' },
   { href: '/opinion', label: 'Opinion' },
   { href: '/local-politics', label: 'Local Politics' },
+  { href: '/lifestyle', label: 'Lifestyle' },
 ];
 
 export default function Header() {

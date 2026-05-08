@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "publish-daily": "node scripts/publish-daily.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
     "next": "^14.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

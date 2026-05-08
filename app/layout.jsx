@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
               </div>
               <div>
                 <h4 style={{ color: '#ccc', fontSize: 11, textTransform: 'uppercase', letterSpacing: '1.5px', margin: '0 0 14px' }}>Sections</h4>
-                {[['News', '/news'], ['Sports', '/sports'], ['Opinion', '/opinion'], ['Local Politics', '/local-politics']].map(([label, href]) => (
+                {[['News', '/news'], ['Sports', '/sports'], ['Opinion', '/opinion'], ['Local Politics', '/local-politics'], ['Lifestyle', '/lifestyle']].map(([label, href]) => (
                   <div key={href} style={{ marginBottom: 8 }}>
                     <a href={href} style={{ color: '#888', textDecoration: 'none', fontSize: 13 }}>{label}</a>
                   </div>

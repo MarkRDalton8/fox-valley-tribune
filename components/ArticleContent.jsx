@@ -95,6 +95,11 @@ export default function ArticleContent({ section, slug }) {
           <div className="piano-politics-signup" style={{ marginTop: 56 }} />
         )}
 
+        {/* Lifestyle newsletter Piano template container */}
+        {section === 'lifestyle' && (
+          <div className="piano-lifestyle-newsletter" style={{ marginTop: 56 }} />
+        )}
+
         {showFull && (
           <div style={{ borderTop: `1px solid ${COLORS.border}`, marginTop: 48, paddingTop: 24 }}>
             <a href={`/${section}`} style={{ color: sectionColor, textDecoration: 'none', fontSize: 14, fontWeight: 700 }}>
