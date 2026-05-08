@@ -13,6 +13,7 @@ export function generateMetadata({ params }) {
 
   const sectionLabel = SECTION_LABELS[section] || section;
   const canonicalUrl = `https://fox-valley-tribune.vercel.app/${section}/${slug}`;
+  const imageUrl = `https://picsum.photos/seed/${slug}/1200/630`;
   const parsedDate = article.date ? new Date(article.date) : null;
   const pubDate = parsedDate && !isNaN(parsedDate) ? parsedDate.toISOString() : new Date().toISOString();
 
@@ -24,11 +25,15 @@ export function generateMetadata({ params }) {
       description: article.excerpt,
       type: 'article',
       url: canonicalUrl,
+      images: [{ url: imageUrl }],
       publishedTime: pubDate,
       modifiedTime: pubDate,
       authors: [article.byline],
       section: sectionLabel,
       tags: article.tags || [],
+    },
+    other: {
+      'cXenseParse:image': imageUrl,
     },
   };
 }

@@ -38,6 +38,7 @@ export default function ArticleContent({ section, slug }) {
   const sectionColor = SECTION_COLORS[section] || COLORS.dark;
   const showFull = !article.locked || hasAccess;
   const visibleBody = showFull ? article.body : article.body.slice(0, 2);
+  const articleImage = `https://picsum.photos/seed/${article.slug}/96/96`;
 
   return (
     <>
@@ -74,7 +75,12 @@ export default function ArticleContent({ section, slug }) {
         </div>
 
         {/* Body */}
-        <div>
+        <div style={{ overflow: 'hidden' }}>
+          <img
+            src={articleImage}
+            alt=""
+            style={{ float: 'left', width: 96, height: 96, marginRight: 18, marginBottom: 8, borderRadius: 2, display: 'block' }}
+          />
           {visibleBody.map((para, i) => (
             <p key={i} style={PARA_STYLE}>{para}</p>
           ))}
