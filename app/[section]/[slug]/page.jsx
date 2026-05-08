@@ -12,12 +12,23 @@ export function generateMetadata({ params }) {
   if (!article) return { title: 'Article Not Found — Fox Valley Tribune' };
 
   const sectionLabel = SECTION_LABELS[section] || section;
+  const canonicalUrl = `https://fox-valley-tribune.vercel.app/${section}/${slug}`;
+  const parsedDate = article.date ? new Date(article.date) : null;
+  const pubDate = parsedDate && !isNaN(parsedDate) ? parsedDate.toISOString() : new Date().toISOString();
+
   return {
     title: `${article.title} — Fox Valley Tribune`,
+    description: article.excerpt,
     openGraph: {
       title: article.title,
+      description: article.excerpt,
       type: 'article',
-      url: `/${section}/${slug}`,
+      url: canonicalUrl,
+      publishedTime: pubDate,
+      modifiedTime: pubDate,
+      authors: [article.byline],
+      section: sectionLabel,
+      tags: article.tags || [],
     },
   };
 }
