@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// Runs daily to generate one new article via Claude API, rotating through all
-// sections. Appends the article to lib/data.js, then commits and pushes so
-// Vercel auto-deploys the updated static site.
+// Runs daily to generate one new article via Piano's OpenWebUI LLM endpoint,
+// rotating through all sections. Appends to lib/data.js, commits, and pushes
+// so Vercel auto-deploys the updated static site.
 //
 // Usage:  node scripts/publish-daily.js
 // Cron:   0 7 * * * cd /path/to/fox-valley-tribune && node scripts/publish-daily.js
-// Env:    ANTHROPIC_API_KEY must be set
+// Env:    OPENWEBUI_API_KEY, OPENWEBUI_ENDPOINT, OPENWEBUI_MODEL (loaded from .env)
 
-const Anthropic = require('@anthropic-ai/sdk');
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
+
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -80,7 +81,14 @@ ${bodyLines}
 }
 
 async function generateArticle(section) {
-  const client = new Anthropic();
+  const { OPENWEBUI_API_KEY, OPENWEBUI_ENDPOINT, OPENWEBUI_MODEL } = process.env;
+
+  if (!OPENWEBUI_API_KEY || !OPENWEBUI_ENDPOINT || !OPENWEBUI_MODEL) {
+    throw new Error('Missing OPENWEBUI_API_KEY, OPENWEBUI_ENDPOINT, or OPENWEBUI_MODEL in environment.');
+  }
+
+  const baseUrl = OPENWEBUI_ENDPOINT.replace(/\/$/, '');
+  const url = `${baseUrl}/api/chat/completions`;
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
@@ -120,14 +128,29 @@ Rules:
 - The slug must be descriptive and unique
 - Tags use kebab-case, drawn from: news, sports, opinion, local-politics, lifestyle, government, education, elections, community, business-and-finance, health, infrastructure, environment, family-and-parenting, food-and-drink, home-design, wellness, personal-development, outdoors, high-school-sports, youth-sports`;
 
-  const response = await client.messages.create({
-    model: 'claude-opus-4-7',
-    max_tokens: 1500,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OPENWEBUI_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: OPENWEBUI_MODEL,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      max_tokens: 1500,
+    }),
   });
 
-  const raw = response.content[0].text.trim();
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenWebUI API error ${response.status}: ${errText}`);
+  }
+
+  const data = await response.json();
+  const raw = data.choices[0].message.content.trim();
   const cleaned = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
 
   let parsed;
@@ -143,10 +166,6 @@ Rules:
 }
 
 async function main() {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error('ANTHROPIC_API_KEY environment variable is not set.');
-  }
-
   const state = readState();
   const section = getNextSection(state.lastSection);
   const nextId = state.lastId + 1;
