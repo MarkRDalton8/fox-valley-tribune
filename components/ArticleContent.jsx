@@ -4,6 +4,19 @@ import { useState, useEffect } from 'react';
 import { COLORS, ARTICLES, SECTION_COLORS, PIANO_CONFIG } from '../lib/data';
 import PianoInit from './PianoInit';
 
+const SECTION_KEYWORDS = {
+  news: 'city,community',
+  sports: 'sports,athletics',
+  opinion: 'newspaper,writing',
+  'local-politics': 'government,politics',
+  lifestyle: 'lifestyle,home',
+};
+
+function getArticleImageUrl(section, id, width, height) {
+  const kw = SECTION_KEYWORDS[section] || 'news';
+  return `https://loremflickr.com/${width}/${height}/${kw}?lock=${id}`;
+}
+
 const PARA_STYLE = {
   fontFamily: "Georgia, 'Times New Roman', serif",
   fontSize: 18, lineHeight: 1.85, color: '#222', marginBottom: 26,
@@ -38,7 +51,7 @@ export default function ArticleContent({ section, slug }) {
   const sectionColor = SECTION_COLORS[section] || COLORS.dark;
   const showFull = !article.locked || hasAccess;
   const visibleBody = showFull ? article.body : article.body.slice(0, 2);
-  const articleImage = `https://picsum.photos/seed/${article.slug}/96/96`;
+  const articleImage = getArticleImageUrl(section, article.id, 160, 160);
 
   return (
     <>
@@ -79,7 +92,7 @@ export default function ArticleContent({ section, slug }) {
           <img
             src={articleImage}
             alt=""
-            style={{ float: 'left', width: 96, height: 96, marginRight: 18, marginBottom: 8, borderRadius: 2, display: 'block' }}
+            style={{ float: 'left', width: 160, height: 160, marginRight: 20, marginBottom: 10, marginTop: 4, borderRadius: 2, display: 'block' }}
           />
           {visibleBody.map((para, i) => (
             <p key={i} style={PARA_STYLE}>{para}</p>
