@@ -12,8 +12,7 @@ export const metadata = {
 };
 
 export default function Home() {
-  const featuredNews = ARTICLES.find(a => a.section === 'news' && a.featured);
-  const latestNews = ARTICLES.filter(a => a.section === 'news' && !a.featured).slice(0, 2);
+  const latestPublished = [...ARTICLES].sort((a, b) => b.id - a.id).slice(0, 2);
   const featuredSports = ARTICLES.find(a => a.section === 'sports' && a.featured);
   const latestSports = ARTICLES.filter(a => a.section === 'sports' && !a.featured).slice(0, 2);
   const opinion = ARTICLES.filter(a => a.section === 'opinion').slice(0, 2);
@@ -40,14 +39,11 @@ export default function Home() {
         </span>
       </div>
 
-      {/* Featured news + sidebar */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20, marginBottom: 32 }}>
-        {featuredNews && <ArticleCard article={featuredNews} featured />}
-        <div>
-          <SectionHeader label="Latest News" color={COLORS.sectionNews} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {latestNews.map(a => <ArticleCard key={a.id} article={a} />)}
-          </div>
+      {/* Latest published articles */}
+      <div style={{ marginBottom: 32 }}>
+        <SectionHeader label="Latest News" color={COLORS.sectionNews} />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          {latestPublished.map(a => <ArticleCard key={a.id} article={a} />)}
         </div>
       </div>
 
