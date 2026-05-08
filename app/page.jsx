@@ -39,41 +39,37 @@ export default function Home() {
         </span>
       </div>
 
-      {/* Latest published articles */}
-      <div style={{ marginBottom: 32 }}>
-        <SectionHeader label="Latest News" color={COLORS.sectionNews} />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-          {latestPublished.map(a => <ArticleCard key={a.id} article={a} />)}
+      {/* Latest News (2/3) + Sports sidebar (1/3) */}
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 28, marginBottom: 32 }}>
+        <div>
+          <SectionHeader label="Latest News" color={COLORS.sectionNews} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {latestPublished.map(a => <ArticleCard key={a.id} article={a} />)}
+          </div>
+        </div>
+        <div>
+          <SectionHeader label="Sports" color={COLORS.sectionSports} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {featuredSports && <ArticleCard article={featuredSports} />}
+            {latestSports.slice(0, 1).map(a => <ArticleCard key={a.id} article={a} />)}
+          </div>
         </div>
       </div>
 
       <div style={{ borderTop: `1px solid ${COLORS.border}`, marginBottom: 32 }} />
 
-      {/* Sports + Opinion */}
+      {/* Opinion + Local Politics (two equal columns) */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 32 }}>
-        <div>
-          <SectionHeader label="Sports" color={COLORS.sectionSports} />
-          {featuredSports && <div style={{ marginBottom: 14 }}><ArticleCard article={featuredSports} featured /></div>}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {latestSports.map(a => <ArticleCard key={a.id} article={a} />)}
-          </div>
-        </div>
         <div>
           <SectionHeader label="Opinion" color={COLORS.sectionOpinion} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {opinion.map(a => <ArticleCard key={a.id} article={a} />)}
           </div>
         </div>
-      </div>
-
-      <div style={{ borderTop: `1px solid ${COLORS.border}`, marginBottom: 32 }} />
-
-      {/* Local Politics */}
-      <div>
-        <SectionHeader label="Local Politics" color={COLORS.sectionLocalPolitics} />
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
-          {featuredPolitics && <ArticleCard article={featuredPolitics} featured />}
+        <div>
+          <SectionHeader label="Local Politics" color={COLORS.sectionLocalPolitics} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {featuredPolitics && <ArticleCard article={featuredPolitics} />}
             {latestPolitics.map(a => <ArticleCard key={a.id} article={a} />)}
           </div>
         </div>
