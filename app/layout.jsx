@@ -32,28 +32,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Piano Analytics — instantTracking fires the initial page.display automatically */}
-        <Script
-          id="piano-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(_config) {
-                var script = document.createElement("script");
-                script.src = "https://tag.aticdn.net/piano-analytics.js";
-                script.async = true;
-                script.dataset.config = JSON.stringify(_config);
-                document.head.appendChild(script);
-              })({
-                site: 639124,
-                collectDomain: "https://fjqqzhr.pa-cd.com",
-                instantTracking: true
-              });
-            `,
-          }}
-        />
-
-        {/* Piano ESP */}
+{/* Piano ESP */}
         <Script
           id="piano-esp"
           strategy="afterInteractive"
