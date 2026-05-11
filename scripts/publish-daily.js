@@ -12,6 +12,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const nodemailer = require('nodemailer');
 
 const DATA_FILE = path.join(__dirname, '../lib/data.js');
 const STATE_FILE = path.join(__dirname, '.publish-state.json');
@@ -165,6 +166,77 @@ Rules:
   return parsed;
 }
 
+async function sendSummaryEmail(article, section, id) {
+  const { SMTP_SERVER, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, FROM_EMAIL, SUMMARY_EMAIL } = process.env;
+  if (!SMTP_USER || !SMTP_PASSWORD || !SUMMARY_EMAIL) {
+    console.log('[publish-daily] Email config missing — skipping summary email.');
+    return;
+  }
+
+  const BASE_URL = 'https://fox-valley-tribune.vercel.app';
+  const articleUrl = `${BASE_URL}/${section}/${article.slug}`;
+  const sectionLabel = section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const date = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+  const html = `
+    <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #222;">
+      <div style="background: #0D3B6E; padding: 20px 24px;">
+        <h1 style="color: white; font-size: 22px; margin: 0;">Fox Valley Tribune</h1>
+        <p style="color: #aac4e8; font-size: 13px; margin: 4px 0 0;">Daily Publish Summary — ${date}</p>
+      </div>
+      <div style="padding: 24px;">
+        <p style="font-size: 14px; color: #555; margin: 0 0 20px;">1 article published and deployed to Vercel.</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="background: #f5f5f5;">
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888; width: 90px;">Section</td>
+            <td style="padding: 6px 10px; font-size: 13px;">${sectionLabel}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888;">Headline</td>
+            <td style="padding: 6px 10px; font-size: 13px;">${article.title}</td>
+          </tr>
+          <tr style="background: #f5f5f5;">
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888;">Byline</td>
+            <td style="padding: 6px 10px; font-size: 13px;">${article.byline}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888;">Article ID</td>
+            <td style="padding: 6px 10px; font-size: 13px;">${id}</td>
+          </tr>
+          <tr style="background: #f5f5f5;">
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888;">Locked</td>
+            <td style="padding: 6px 10px; font-size: 13px;">${article.locked ? 'Yes (paywalled)' : 'No (free)'}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888;">Excerpt</td>
+            <td style="padding: 6px 10px; font-size: 13px; font-style: italic; color: #555;">${article.excerpt}</td>
+          </tr>
+        </table>
+        <div style="margin-top: 24px;">
+          <a href="${articleUrl}" style="background: #0D3B6E; color: white; padding: 10px 20px; text-decoration: none; font-size: 14px; display: inline-block;">View Article →</a>
+          <a href="${BASE_URL}/${section}" style="margin-left: 12px; color: #0D3B6E; font-size: 14px;">View ${sectionLabel} section →</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_SERVER || 'smtp.gmail.com',
+    port: parseInt(SMTP_PORT || '587'),
+    secure: false,
+    auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
+  });
+
+  await transporter.sendMail({
+    from: `"Fox Valley Tribune" <${FROM_EMAIL}>`,
+    to: SUMMARY_EMAIL,
+    subject: `FVT Published: ${article.title}`,
+    html,
+  });
+
+  console.log(`[publish-daily] Summary email sent to ${SUMMARY_EMAIL}`);
+}
+
 async function main() {
   const state = readState();
   const section = getNextSection(state.lastSection);
@@ -193,6 +265,8 @@ async function main() {
   execSync('git push', { stdio: 'inherit', cwd: repoRoot });
 
   console.log('[publish-daily] Done — pushed to GitHub. Vercel will redeploy shortly.');
+
+  await sendSummaryEmail(article, section, nextId);
 }
 
 main().catch(err => {
