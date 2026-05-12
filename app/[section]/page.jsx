@@ -29,7 +29,7 @@ export default function SectionPage({ params }) {
   const label = SECTION_LABELS[section];
   const tagline = SECTION_TAGLINES[section];
   const color = SECTION_COLORS[section] || COLORS.dark;
-  const articles = ARTICLES.filter(a => a.section === section);
+  const articles = ARTICLES.filter(a => a.section === section).sort((a, b) => b.id - a.id);
 
   return (
     <>
