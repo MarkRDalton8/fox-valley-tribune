@@ -13,6 +13,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const nodemailer = require('nodemailer');
+const { PERSONAS } = require('../lib/personas');
 
 const DATA_FILE = path.join(__dirname, '../lib/data.js');
 const STATE_FILE = path.join(__dirname, '.publish-state.json');
@@ -39,6 +40,13 @@ function writeState(state) {
 function getNextSection(lastSection) {
   const idx = SECTIONS.indexOf(lastSection);
   return SECTIONS[(idx + 1) % SECTIONS.length];
+}
+
+function buildPersonaBlock(section) {
+  const relevant = PERSONAS.filter(p => p.sections.includes(section));
+  if (!relevant.length) return '';
+  const lines = relevant.map(p => `- ${p.name} (${p.role}): ${p.personality}`).join('\n');
+  return `\nRECURRING FOX VALLEY CHARACTERS — if one fits naturally in this story, give them a quote or mention (1-2 max). Skip them entirely if they don't fit — never force it:\n${lines}\n`;
 }
 
 function slugExists(slug) {
@@ -101,6 +109,7 @@ Return ONLY valid JSON — no markdown, no explanation, no code fences.`;
 
   const userPrompt = `Write a new article for the ${section} section of the Fox Valley Tribune.
 The article should be about: ${SECTION_PROMPTS[section]}
+${buildPersonaBlock(section)}
 
 Today is ${today}. Make the article feel timely and current.
 
@@ -227,6 +236,9 @@ async function sendSummaryEmail(article, section, id) {
     auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
   });
 
+  await transporter.verify();
+  console.log('[publish-daily] SMTP connection verified.');
+
   await transporter.sendMail({
     from: `"Fox Valley Tribune" <${FROM_EMAIL}>`,
     to: SUMMARY_EMAIL,
@@ -266,7 +278,9 @@ async function main() {
 
   console.log('[publish-daily] Done — pushed to GitHub. Vercel will redeploy shortly.');
 
-  await sendSummaryEmail(article, section, nextId);
+  await sendSummaryEmail(article, section, nextId).catch(err => {
+    console.error('[publish-daily] Email failed:', err.message);
+  });
 }
 
 main().catch(err => {
