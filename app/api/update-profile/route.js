@@ -1,6 +1,6 @@
 export async function POST(request) {
   try {
-    const { uid, tinytoken, fields } = await request.json();
+    const { uid, userToken, fields } = await request.json();
 
     if (!uid || !fields) {
       return Response.json({ error: 'Missing uid or fields' }, { status: 400 });
@@ -15,14 +15,14 @@ export async function POST(request) {
     params.append('uid', uid);
     Object.entries(fields).forEach(([k, v]) => params.append(`custom_fields[${k}]`, v));
 
-    // Try with user_token (tinytoken from browser) first — this uses the user's own auth
+    // Use user_token (from pianoId.getToken()) — this is user-level auth that can write custom fields
     // Fall back to api_token (publisher auth) if not available
-    if (tinytoken) {
-      params.append('user_token', tinytoken);
-      console.log('[update-profile] Using user_token (tinytoken)');
+    if (userToken) {
+      params.append('user_token', userToken);
+      console.log('[update-profile] Using user_token from pianoId.getToken()');
     } else {
       params.append('api_token', publisherToken);
-      console.log('[update-profile] Falling back to api_token');
+      console.log('[update-profile] Falling back to api_token (publisher)');
     }
 
     console.log('[update-profile] POST', url);

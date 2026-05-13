@@ -40,14 +40,14 @@ export default function ProgressiveProfileModal() {
     const user = window.tp?.pianoId?.getUser();
     if (!user) { setSaving(false); setError('Not logged in.'); return; }
 
-    // Piano stores the user's raw access token in localStorage under "tinytoken"
-    const tinytoken = localStorage.getItem('tinytoken');
-    console.log('[PPF1] tinytoken:', tinytoken ? tinytoken.substring(0, 40) + '...' : 'NOT FOUND');
+    // pianoId.getToken() returns the user's session token (reads from xbc cookie)
+    const userToken = window.tp.pianoId.getToken();
+    console.log('[PPF1] userToken:', userToken ? userToken.substring(0, 40) + '...' : 'NOT FOUND');
 
     fetch('/api/update-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid: user.uid, tinytoken, fields: { job_level: jobLevel, COMPANY: company } }),
+      body: JSON.stringify({ uid: user.uid, userToken, fields: { job_level: jobLevel, COMPANY: company } }),
     })
       .then(r => r.json())
       .then(data => {
