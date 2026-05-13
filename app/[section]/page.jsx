@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation';
 import { COLORS, ARTICLES, SECTION_COLORS, SECTION_LABELS, SECTION_TAGLINES } from '../../lib/data';
 import { ArticleCard } from '../../components/ArticleCard';
 import PianoInit from '../../components/PianoInit';
-import ProgressiveProfileModal from '../../components/ProgressiveProfileModal';
-import ProgressiveProfileModal2 from '../../components/ProgressiveProfileModal2';
 
 const VALID_SECTIONS = ['news', 'sports', 'opinion', 'local-politics', 'lifestyle'];
 
@@ -36,8 +34,6 @@ export default function SectionPage({ params }) {
   return (
     <>
       <PianoInit section={section} />
-      {section === 'local-politics' && <ProgressiveProfileModal />}
-      {section === 'local-politics' && <ProgressiveProfileModal2 />}
 
       <div style={{ borderBottom: `4px solid ${color}`, marginBottom: 28, paddingBottom: 14 }}>
         <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 40, fontWeight: 700, color: COLORS.dark, margin: '0 0 6px' }}>
