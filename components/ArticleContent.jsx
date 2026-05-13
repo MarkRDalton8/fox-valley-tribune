@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { COLORS, ARTICLES, SECTION_COLORS, PIANO_CONFIG } from '../lib/data';
 import PianoInit from './PianoInit';
+import ProgressiveProfileModal from './ProgressiveProfileModal';
+import ProgressiveProfileModal2 from './ProgressiveProfileModal2';
 
 const SECTION_KEYWORDS = {
   news: 'city,community',
@@ -113,6 +115,10 @@ export default function ArticleContent({ section, slug }) {
         {section === 'local-politics' && (
           <div className="piano-politics-signup" style={{ marginTop: 56 }} />
         )}
+
+        {/* Progressive profiling modals — local politics only */}
+        {section === 'local-politics' && <ProgressiveProfileModal />}
+        {section === 'local-politics' && <ProgressiveProfileModal2 />}
 
         {/* Lifestyle newsletter Piano template container */}
         {section === 'lifestyle' && (
