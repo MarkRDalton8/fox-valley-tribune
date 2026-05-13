@@ -13,9 +13,10 @@ export async function POST(request) {
     params.append('aid', process.env.PIANO_AID);
     params.append('api_token', process.env.PIANO_API_TOKEN);
     params.append('uid', uid);
-    for (const [key, value] of Object.entries(fields)) {
-      params.append(`custom_fields[${key}]`, value);
-    }
+    Object.entries(fields).forEach(([key, value], i) => {
+      params.append(`custom_fields[${i}][field_name]`, key);
+      params.append(`custom_fields[${i}][value]`, value);
+    });
     console.log('[update-profile] Sending:', params.toString());
 
     const response = await fetch(url, {
