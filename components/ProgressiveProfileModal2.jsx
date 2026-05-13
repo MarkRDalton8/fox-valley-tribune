@@ -4,20 +4,23 @@ import { useState, useEffect } from 'react';
 import { COLORS } from '../lib/data';
 
 const RESOURCE_ID = 'RAF1LL2';
-const PAGEVIEW_THRESHOLD = 3; // show after this many total site pageviews
+const PAGEVIEW_THRESHOLD = 5;
 const PAGEVIEW_KEY = 'fvt_pageviews';
+const FORM1_DONE_KEY = 'fvt_ppf1_done';
 
-export default function ProgressiveProfileModal() {
+export default function ProgressiveProfileModal2() {
   const [visible, setVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [jobLevel, setJobLevel] = useState('');
-  const [company, setCompany] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [companySize, setCompanySize] = useState('');
+  const [dept, setDept] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const pageviews = parseInt(localStorage.getItem(PAGEVIEW_KEY) || '0', 10);
     if (pageviews < PAGEVIEW_THRESHOLD) return;
+    if (!localStorage.getItem(FORM1_DONE_KEY)) return; // wait for form 1 first
 
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
@@ -34,19 +37,19 @@ export default function ProgressiveProfileModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!jobLevel.trim() || !company.trim()) {
-      setError('Please fill in both fields.');
+    if (!industry || !companySize.trim() || !dept) {
+      setError('Please fill in all fields.');
       return;
     }
     setSaving(true);
     setError('');
 
     window.tp.api.callApi('/publisher/user/update', {
-      custom_fields: JSON.stringify({ job_level: jobLevel, COMPANY: company }),
+      custom_fields: JSON.stringify({ INDUSTRY: industry, 'COMPANY-SIZE': companySize, DEPT: dept }),
     }, function (response) {
       setSaving(false);
       if (response?.code === 0 || response?.user) {
-        localStorage.setItem('fvt_ppf1_done', '1');
+        localStorage.setItem('fvt_ppf2_done', '1');
         setSubmitted(true);
       } else {
         setError('Something went wrong. Please try again.');
@@ -86,9 +89,9 @@ export default function ProgressiveProfileModal() {
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontSize: 28, color: COLORS.dark, margin: '0 0 12px',
-            }}>Thanks for sharing!</h2>
+            }}>Your profile is complete!</h2>
             <p style={{ fontSize: 15, color: '#555', lineHeight: 1.7, margin: '0 0 28px' }}>
-              Your profile has been updated. You can review and edit your details anytime in My Account.
+              Thanks for helping us understand our readers better. View your full profile in My Account.
             </p>
             <a
               href="/account"
@@ -110,10 +113,10 @@ export default function ProgressiveProfileModal() {
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontSize: 26, color: COLORS.dark, margin: '0 0 10px', lineHeight: 1.3,
-            }}>Help us cover the stories that matter to you</h2>
+            }}>One more thing — tell us about your work</h2>
 
             <p style={{ fontSize: 14, color: '#666', margin: '0 0 28px', lineHeight: 1.65 }}>
-              As a Tribune subscriber, your perspective shapes our coverage. Tell us a bit about yourself.
+              A little more context helps us deliver the local politics coverage most relevant to you.
             </p>
 
             <form onSubmit={handleSubmit}>
@@ -121,46 +124,65 @@ export default function ProgressiveProfileModal() {
                 <label style={{
                   display: 'block', fontSize: 11, fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '1px', color: '#444', marginBottom: 7,
-                }}>Job Title</label>
+                }}>Industry / Vertical</label>
                 <select
-                  value={jobLevel}
-                  onChange={e => setJobLevel(e.target.value)}
+                  value={industry}
+                  onChange={e => setIndustry(e.target.value)}
                   style={{
                     width: '100%', padding: '11px 13px', fontSize: 15,
                     border: '1px solid #ddd', outline: 'none', background: 'white',
                     boxSizing: 'border-box', fontFamily: 'Georgia, serif', cursor: 'pointer',
                   }}
                 >
-                  <option value="">Select your job title…</option>
-                  <option value="CEO">CEO</option>
-                  <option value="Other C-Level">Other C-Level</option>
-                  <option value="Executive Leadership (VP, SVP, EVP)">Executive Leadership (VP, SVP, EVP)</option>
-                  <option value="Director">Director</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Supervisor">Supervisor</option>
-                  <option value="Staff">Staff</option>
-                  <option value="Student">Student</option>
-                  <option value="Consultant">Consultant</option>
-                  <option value="Other">Other</option>
+                  <option value="">Select your industry…</option>
+                  <option value="Food & Beverage">Food &amp; Beverage</option>
+                  <option value="Security">Security</option>
+                  <option value="Building & Construction">Building &amp; Construction</option>
+                  <option value="Manufacturing">Manufacturing</option>
+                  <option value="Packaging">Packaging</option>
                 </select>
               </div>
 
-              <div style={{ marginBottom: 24 }}>
+              <div style={{ marginBottom: 18 }}>
                 <label style={{
                   display: 'block', fontSize: 11, fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '1px', color: '#444', marginBottom: 7,
-                }}>Company Name</label>
+                }}>Company Size</label>
                 <input
                   type="text"
-                  value={company}
-                  onChange={e => setCompany(e.target.value)}
-                  placeholder="e.g. Kane County Government"
+                  value={companySize}
+                  onChange={e => setCompanySize(e.target.value)}
+                  placeholder="e.g. 250"
                   style={{
                     width: '100%', padding: '11px 13px', fontSize: 15,
                     border: '1px solid #ddd', outline: 'none',
                     boxSizing: 'border-box', fontFamily: 'Georgia, serif',
                   }}
                 />
+              </div>
+
+              <div style={{ marginBottom: 24 }}>
+                <label style={{
+                  display: 'block', fontSize: 11, fontWeight: 700,
+                  textTransform: 'uppercase', letterSpacing: '1px', color: '#444', marginBottom: 7,
+                }}>Department / Function</label>
+                <select
+                  value={dept}
+                  onChange={e => setDept(e.target.value)}
+                  style={{
+                    width: '100%', padding: '11px 13px', fontSize: 15,
+                    border: '1px solid #ddd', outline: 'none', background: 'white',
+                    boxSizing: 'border-box', fontFamily: 'Georgia, serif', cursor: 'pointer',
+                  }}
+                >
+                  <option value="">Select your department…</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                  <option value="HR">HR</option>
+                </select>
               </div>
 
               {error && (
