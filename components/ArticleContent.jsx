@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { COLORS, ARTICLES, SECTION_COLORS, PIANO_CONFIG } from '../lib/data';
 import PianoInit from './PianoInit';
+import ProgressiveProfileModal from './ProgressiveProfileModal';
 
 const SECTION_KEYWORDS = {
   news: 'city,community',
@@ -60,6 +61,7 @@ export default function ArticleContent({ section, slug }) {
         tags={article.tags || [section, article.category?.toLowerCase()].filter(Boolean)}
         contentCreator={article.byline}
       />
+      {section === 'local-politics' && <ProgressiveProfileModal />}
 
       <div style={{ maxWidth: 760, margin: '0 auto' }}>
         {/* Breadcrumb */}
