@@ -40,11 +40,14 @@ export default function ProgressiveProfileModal() {
     window.tp.api.callApi('/publisher/user/update', {
       custom_fields: JSON.stringify({ job_level: jobLevel, COMPANY: company }),
     }, function (response) {
+      console.log('[PPF1] API response:', JSON.stringify(response));
       setSaving(false);
-      if (response?.code === 0 || response?.user) {
+      const hasError = response?.errors?.length || response?.error;
+      if (!hasError) {
         localStorage.setItem('fvt_ppf1_done', '1');
         setSubmitted(true);
       } else {
+        console.error('[PPF1] Error:', response?.errors || response?.error);
         setError('Something went wrong. Please try again.');
       }
     });
