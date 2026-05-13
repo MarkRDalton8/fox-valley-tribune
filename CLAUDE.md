@@ -178,3 +178,44 @@ The keyword map lives in two places — keep them in sync if adding sections:
 **Check publish logs** — `cat /tmp/fvt-publish.log` or `cat /tmp/fvt-publish-error.log`.
 
 **Reload the launchd job after editing the plist** — `launchctl unload ~/Library/LaunchAgents/com.foxvalleytribune.publish.plist && launchctl load ~/Library/LaunchAgents/com.foxvalleytribune.publish.plist`
+
+---
+
+## Piano API — Writing Custom Fields
+
+The `publisher/user/update` endpoint has a non-obvious transport requirement that Piano's docs don't clearly explain.
+
+**The working format** (confirmed via testing):
+- Method: `POST https://api.piano.io/api/v3/publisher/user/update`
+- Body: `application/x-www-form-urlencoded` with `api_token`, `aid`, `uid`, and `custom_fields` all as form fields
+- `custom_fields` must be a **JSON-encoded map string**: `{"FIELD_NAME": "value"}`
+- `api_token` must be in the **form body** (not just the Authorization/api_token header)
+
+**Select field values** (`SINGLE_SELECT_LIST`, `MULTI_SELECT_LIST`) must be wrapped as JSON arrays: `'["Male"]'` not `"Male"`. Plain strings silently fail with a 200 response.
+
+**Things that don't work** (all return 200 but silently drop the update):
+- Sending `custom_fields` as a JSON array of `{field_name, value}` objects in the request body
+- Sending `custom_fields` as form-encoded key-value pairs (e.g. `custom_fields[COMPANY]=Foo`)
+- `Content-Type: application/json` with a JSON body
+- `api_token` in the header only (without also including it in the form body)
+
+**Node.js implementation** (see `app/api/piano-profile/route.js`):
+```js
+const body = new URLSearchParams({
+  api_token: TOKEN,
+  aid: AID,
+  uid,
+  custom_fields: JSON.stringify(fields), // fields = { COMPANY: "Foo", job_level: '["CEO"]' }
+});
+await fetch('https://api.piano.io/api/v3/publisher/user/update', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: body.toString(),
+});
+```
+
+**CLI tool** — `scripts/piano_id_cf.py` can get/set/list-fields from the terminal:
+```bash
+FOXVALLEY_API_TOKEN=... FOXVALLEY_AID=... python3 scripts/piano_id_cf.py list-fields --uid <any-uid>
+FOXVALLEY_API_TOKEN=... FOXVALLEY_AID=... python3 scripts/piano_id_cf.py set <uid> -f COMPANY=Foo -f gender=Male
+```
