@@ -48,6 +48,7 @@ export default function ProgressiveProfileModal() {
       .then(r => r.json())
       .then(data => {
         setSaving(false);
+        console.log('[PPF1] Response:', JSON.stringify(data));
         if (data?.errors?.length || data?.error) {
           console.error('[PPF1]', data.errors || data.error);
           setError('Something went wrong. Please try again.');
