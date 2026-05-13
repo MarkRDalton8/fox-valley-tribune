@@ -51,10 +51,7 @@ export default function Header() {
   }, []);
 
   const handleLogin = () => {
-    window.tp = window.tp || [];
-    window.tp.push(['init', function () {
-      window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
-    }]);
+    window.tp?.pianoId?.show({ screen: 'login', displayMode: 'modal' });
   };
 
   const handleLogout = () => {
