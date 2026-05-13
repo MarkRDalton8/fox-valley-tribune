@@ -20,12 +20,18 @@ export default function Header() {
   useEffect(() => {
     setCurrentPath(window.location.pathname);
 
+    const applyUser = (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        setUserName(user.given_name || user.email || 'Subscriber');
+      }
+    };
+
     const tp = window.tp || [];
 
     tp.push(['addHandler', 'loginSuccess', function (data) {
       window.tp.pianoId.hide();
-      setIsLoggedIn(true);
-      setUserName(data.user.given_name || data.user.email || 'Subscriber');
+      applyUser(data.user);
       window.location.href = '/account';
     }]);
 
@@ -33,13 +39,15 @@ export default function Header() {
       window.location.href = '/account';
     }]);
 
+    // Fires if Piano hasn't initialized yet
     tp.push(['init', function () {
-      const user = window.tp.pianoId.getUser();
-      if (user) {
-        setIsLoggedIn(true);
-        setUserName(user.given_name || user.email || 'Subscriber');
-      }
+      applyUser(window.tp.pianoId.getUser());
     }]);
+
+    // Fires immediately if Piano is already initialized (common on page load)
+    if (window.tp?.pianoId?.getUser) {
+      applyUser(window.tp.pianoId.getUser());
+    }
   }, []);
 
   const handleLogin = () => {
