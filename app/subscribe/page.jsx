@@ -25,13 +25,10 @@ export default function Subscribe() {
   };
 
   const handleSignIn = () => {
-    if (window.tp?.pianoId?.show) {
+    window.tp = window.tp || [];
+    window.tp.push(['init', function () {
       window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
-    } else {
-      (window.tp || []).push(['init', function () {
-        window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
-      }]);
-    }
+    }]);
   };
 
   return (
