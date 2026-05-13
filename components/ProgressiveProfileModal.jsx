@@ -37,22 +37,30 @@ export default function ProgressiveProfileModal() {
     setSaving(true);
     setError('');
 
-    if (!window.tp?.pianoId?.getUser()) { setSaving(false); setError('Not logged in.'); return; }
+    const user = window.tp?.pianoId?.getUser();
+    if (!user) { setSaving(false); setError('Not logged in.'); return; }
 
-    window.tp.api.callApi('/user/update', {
-      'custom_fields[job_level]': jobLevel,
-      'custom_fields[COMPANY]': company,
-    }, function (response) {
-      setSaving(false);
-      console.log('[PPF1] callApi response:', JSON.stringify(response));
-      if (response?.errors?.length || response?.error) {
-        console.error('[PPF1]', response.errors || response.error);
-        setError('Something went wrong. Please try again.');
-      } else {
-        localStorage.setItem('fvt_ppf1_done', '1');
-        setSubmitted(true);
-      }
-    });
+    // Log full user object so we can see what tokens are available
+    console.log('[PPF1] user object keys:', Object.keys(user));
+    console.log('[PPF1] user:', JSON.stringify(user));
+
+    fetch('/api/update-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid: user.uid, fields: { job_level: jobLevel, COMPANY: company } }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        setSaving(false);
+        console.log('[PPF1] response:', JSON.stringify(data));
+        if (data?.success) {
+          localStorage.setItem('fvt_ppf1_done', '1');
+          setSubmitted(true);
+        } else {
+          setError('Something went wrong. Please try again.');
+        }
+      })
+      .catch(() => { setSaving(false); setError('Network error. Please try again.'); });
   };
 
   if (!visible) return null;
