@@ -34,7 +34,7 @@ export default function ProgressiveProfileModal2() {
 
   useEffect(() => {
     if (!showToast) return;
-    const t = setTimeout(() => setShowToast(false), 3000);
+    const t = setTimeout(() => setShowToast(false), 8000);
     return () => clearTimeout(t);
   }, [showToast]);
 
