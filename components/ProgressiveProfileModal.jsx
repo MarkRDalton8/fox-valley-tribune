@@ -40,34 +40,14 @@ export default function ProgressiveProfileModal() {
     const user = window.tp?.pianoId?.getUser();
     if (!user) { setSaving(false); setError('Not logged in.'); return; }
 
-    // Probe pianoId for raw token
-    const pi = window.tp.pianoId;
-    const piProps = Object.getOwnPropertyNames(pi).filter(k => typeof pi[k] !== 'function');
-    const piMethods = Object.getOwnPropertyNames(pi).filter(k => typeof pi[k] === 'function');
-    console.log('[PPF1] pianoId non-fn props:', piProps);
-    console.log('[PPF1] pianoId methods:', piMethods);
-    piProps.forEach(k => {
-      const v = pi[k];
-      if (typeof v === 'string' && v.length > 20) console.log(`[PPF1] pianoId.${k}:`, v.substring(0, 80));
-    });
-    if (typeof pi.getToken === 'function') pi.getToken(t => console.log('[PPF1] getToken:', t?.substring?.(0, 80)));
-    if (typeof pi.getLoginToken === 'function') console.log('[PPF1] getLoginToken:', pi.getLoginToken()?.substring?.(0, 80));
-
-    // Check localStorage for Piano tokens
-    const pianoLsKeys = Object.keys(localStorage).filter(k =>
-      /piano|tinypass|xbc|tp_/i.test(k)
-    );
-    console.log('[PPF1] piano localStorage keys:', pianoLsKeys);
-    pianoLsKeys.forEach(k => console.log(`[PPF1] ls[${k}]:`, localStorage.getItem(k)?.substring(0, 80)));
-
-    // Check cookies
-    const pianoCookies = document.cookie.split(';').filter(c => /xbc|piano|tinypass/i.test(c));
-    console.log('[PPF1] piano cookies:', pianoCookies.map(c => c.trim().substring(0, 80)));
+    // Piano stores the user's raw access token in localStorage under "tinytoken"
+    const tinytoken = localStorage.getItem('tinytoken');
+    console.log('[PPF1] tinytoken:', tinytoken ? tinytoken.substring(0, 40) + '...' : 'NOT FOUND');
 
     fetch('/api/update-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid: user.uid, fields: { job_level: jobLevel, COMPANY: company } }),
+      body: JSON.stringify({ uid: user.uid, tinytoken, fields: { job_level: jobLevel, COMPANY: company } }),
     })
       .then(r => r.json())
       .then(data => {
