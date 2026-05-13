@@ -9,13 +9,13 @@ import { useEffect } from 'react';
  */
 export default function PianoInit({ section, tags = [], contentCreator }) {
   useEffect(() => {
-    const tp = window.tp || [];
+    window.tp = window.tp || [];
 
-    if (section) tp.push(['setContentSection', section]);
-    if (tags.length) tp.push(['setTags', tags]);
-    if (contentCreator) tp.push(['setContentCreator', contentCreator]);
+    if (section) window.tp.push(['setContentSection', section]);
+    if (tags.length) window.tp.push(['setTags', tags]);
+    if (contentCreator) window.tp.push(['setContentCreator', contentCreator]);
 
-    tp.push(['init', function () {
+    window.tp.push(['init', function () {
       window.tp.experience.execute();
     }]);
   }, []);

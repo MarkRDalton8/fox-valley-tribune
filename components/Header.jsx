@@ -27,27 +27,21 @@ export default function Header() {
       }
     };
 
-    const tp = window.tp || [];
+    window.tp = window.tp || [];
 
-    tp.push(['addHandler', 'loginSuccess', function (data) {
+    window.tp.push(['addHandler', 'loginSuccess', function (data) {
       window.tp.pianoId.hide();
       applyUser(data.user);
       window.location.href = '/account';
     }]);
 
-    tp.push(['addHandler', 'checkoutComplete', function () {
+    window.tp.push(['addHandler', 'checkoutComplete', function () {
       window.location.href = '/account';
     }]);
 
-    // Fires if Piano hasn't initialized yet
-    tp.push(['init', function () {
+    window.tp.push(['init', function () {
       applyUser(window.tp.pianoId.getUser());
     }]);
-
-    // Fires immediately if Piano is already initialized (common on page load)
-    if (window.tp?.pianoId?.getUser) {
-      applyUser(window.tp.pianoId.getUser());
-    }
   }, []);
 
   const handleLogin = () => {

@@ -21,13 +21,9 @@ export default function ProgressiveProfileModal() {
 
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
-      const user = window.tp.pianoId.getUser();
-      if (!user) return;
-
+      if (!window.tp.pianoId.getUser()) return;
       window.tp.api.callApi('/access/check', { rid: RESOURCE_ID }, function (response) {
-        if (response?.access?.granted) {
-          setVisible(true);
-        }
+        if (response?.access?.granted) setVisible(true);
       });
     }]);
   }, []);

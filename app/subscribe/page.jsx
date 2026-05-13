@@ -14,14 +14,11 @@ const BENEFITS = [
 
 export default function Subscribe() {
   const handleSubscribe = () => {
-    const tp = window.tp || [];
-    tp.push(['init', function () {
-      if (PIANO_CONFIG.OFFER_ID) {
-        window.tp.offer.show({ offerId: PIANO_CONFIG.OFFER_ID, displayMode: 'modal' });
-      } else {
-        window.tp.experience.execute();
-      }
-    }]);
+    if (PIANO_CONFIG.OFFER_ID) {
+      window.tp?.offer?.show({ offerId: PIANO_CONFIG.OFFER_ID, displayMode: 'modal' });
+    } else {
+      window.tp?.experience?.execute();
+    }
   };
 
   const handleSignIn = () => {
