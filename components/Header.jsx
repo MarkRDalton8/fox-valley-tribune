@@ -79,7 +79,7 @@ export default function Header() {
       {/* Utility bar */}
       <div style={{ background: COLORS.dark, color: '#aaa', fontSize: 12, padding: '6px 0', borderBottom: '1px solid #333' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+          <span suppressHydrationWarning>{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
           <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
             {isLoggedIn ? (
               <>

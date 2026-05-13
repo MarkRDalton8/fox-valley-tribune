@@ -40,17 +40,26 @@ export default function ProgressiveProfileModal2() {
     setSaving(true);
     setError('');
 
-    window.tp.api.callApi('/publisher/user/update', {
-      custom_fields: JSON.stringify({ INDUSTRY: industry, 'COMPANY-SIZE': companySize, DEPT: dept }),
-    }, function (response) {
-      setSaving(false);
-      if (response?.code === 0 || response?.user) {
-        localStorage.setItem('fvt_ppf2_done', '1');
-        setSubmitted(true);
-      } else {
-        setError('Something went wrong. Please try again.');
-      }
-    });
+    const uid = window.tp?.pianoId?.getUser()?.uid;
+    if (!uid) { setSaving(false); setError('Not logged in.'); return; }
+
+    fetch('/api/update-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid, fields: { INDUSTRY: industry, 'COMPANY-SIZE': companySize, DEPT: dept } }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        setSaving(false);
+        if (data?.errors?.length || data?.error) {
+          console.error('[PPF2]', data.errors || data.error);
+          setError('Something went wrong. Please try again.');
+        } else {
+          localStorage.setItem('fvt_ppf2_done', '1');
+          setSubmitted(true);
+        }
+      })
+      .catch(() => { setSaving(false); setError('Network error. Please try again.'); });
   };
 
   if (!visible) return null;

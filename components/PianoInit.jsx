@@ -13,7 +13,6 @@ export default function PianoInit({ section, tags = [], contentCreator }) {
 
     if (section) window.tp.push(['setContentSection', section]);
     if (tags.length) window.tp.push(['setTags', tags]);
-    if (contentCreator) window.tp.push(['setContentCreator', contentCreator]);
 
     window.tp.push(['init', function () {
       window.tp.experience.execute();
