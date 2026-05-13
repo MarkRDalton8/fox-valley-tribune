@@ -37,27 +37,22 @@ export default function ProgressiveProfileModal() {
     setSaving(true);
     setError('');
 
-    const uid = window.tp?.pianoId?.getUser()?.uid;
-    if (!uid) { setSaving(false); setError('Not logged in.'); return; }
+    if (!window.tp?.pianoId?.getUser()) { setSaving(false); setError('Not logged in.'); return; }
 
-    fetch('/api/update-profile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ uid, fields: { job_level: jobLevel, COMPANY: company } }),
-    })
-      .then(r => r.json())
-      .then(data => {
-        setSaving(false);
-        console.log('[PPF1] Response:', JSON.stringify(data));
-        if (data?.errors?.length || data?.error) {
-          console.error('[PPF1]', data.errors || data.error);
-          setError('Something went wrong. Please try again.');
-        } else {
-          localStorage.setItem('fvt_ppf1_done', '1');
-          setSubmitted(true);
-        }
-      })
-      .catch(() => { setSaving(false); setError('Network error. Please try again.'); });
+    window.tp.api.callApi('/user/update', {
+      'custom_fields[job_level]': jobLevel,
+      'custom_fields[COMPANY]': company,
+    }, function (response) {
+      setSaving(false);
+      console.log('[PPF1] callApi response:', JSON.stringify(response));
+      if (response?.errors?.length || response?.error) {
+        console.error('[PPF1]', response.errors || response.error);
+        setError('Something went wrong. Please try again.');
+      } else {
+        localStorage.setItem('fvt_ppf1_done', '1');
+        setSubmitted(true);
+      }
+    });
   };
 
   if (!visible) return null;
