@@ -43,7 +43,7 @@ export default function SubscribeRibbon() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1, minWidth: 0 }}>
           <div style={{ background: COLORS.primary, color: 'white', fontSize: 10, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1.5px', padding: '5px 12px', whiteSpace: 'nowrap' }}>
-            Subscribe
+            Register
           </div>
           <p style={{ color: '#e0e0e0', fontSize: 15, margin: 0, fontFamily: "'Playfair Display', Georgia, serif", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             Support local journalism. Get unlimited access to the Fox Valley Tribune.
@@ -51,7 +51,7 @@ export default function SubscribeRibbon() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           <button onClick={handleSubscribe} style={{ background: COLORS.primary, color: 'white', border: 'none', padding: '10px 28px', fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-            Subscribe Now
+            Register Now
           </button>
           <button onClick={handleDismiss} aria-label="Dismiss" style={{ background: 'none', border: '1px solid #444', color: '#aaa', width: 32, height: 32, fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             ×

@@ -90,7 +90,7 @@ export default function Header() {
             ) : (
               <>
                 <button onClick={handleLogin} style={{ background: 'none', border: 'none', color: '#aaa', cursor: 'pointer', fontSize: 12, padding: 0 }}>Sign In</button>
-                <a href="/subscribe" style={{ color: COLORS.primary, textDecoration: 'none', fontWeight: 700 }}>Subscribe</a>
+                <a href="/subscribe" style={{ color: COLORS.primary, textDecoration: 'none', fontWeight: 700 }}>Register</a>
               </>
             )}
           </div>
@@ -150,7 +150,7 @@ export default function Header() {
               whiteSpace: 'nowrap',
             }}
           >
-            Subscribe
+            Register
           </a>
         </div>
       </nav>
