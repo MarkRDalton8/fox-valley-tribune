@@ -80,7 +80,7 @@ export default function RootLayout({ children }) {
               </div>
               <div>
                 <h4 style={{ color: '#ccc', fontSize: 11, textTransform: 'uppercase', letterSpacing: '1.5px', margin: '0 0 14px' }}>Account</h4>
-                {[['Subscribe', '/subscribe'], ['My Account', '/account']].map(([label, href]) => (
+                {[['Register', '/subscribe'], ['My Account', '/account']].map(([label, href]) => (
                   <div key={href} style={{ marginBottom: 8 }}>
                     <a href={href} style={{ color: '#888', textDecoration: 'none', fontSize: 13 }}>{label}</a>
                   </div>
