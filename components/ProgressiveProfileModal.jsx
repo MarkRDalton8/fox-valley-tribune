@@ -116,17 +116,27 @@ export default function ProgressiveProfileModal() {
                   display: 'block', fontSize: 11, fontWeight: 700,
                   textTransform: 'uppercase', letterSpacing: '1px', color: '#444', marginBottom: 7,
                 }}>Job Title</label>
-                <input
-                  type="text"
+                <select
                   value={jobLevel}
                   onChange={e => setJobLevel(e.target.value)}
-                  placeholder="e.g. Policy Analyst"
                   style={{
                     width: '100%', padding: '11px 13px', fontSize: 15,
-                    border: '1px solid #ddd', outline: 'none',
-                    boxSizing: 'border-box', fontFamily: 'Georgia, serif',
+                    border: '1px solid #ddd', outline: 'none', background: 'white',
+                    boxSizing: 'border-box', fontFamily: 'Georgia, serif', cursor: 'pointer',
                   }}
-                />
+                >
+                  <option value="">Select your job title…</option>
+                  <option value="CEO">CEO</option>
+                  <option value="Other C-Level">Other C-Level</option>
+                  <option value="Executive Leadership (VP, SVP, EVP)">Executive Leadership (VP, SVP, EVP)</option>
+                  <option value="Director">Director</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Supervisor">Supervisor</option>
+                  <option value="Staff">Staff</option>
+                  <option value="Student">Student</option>
+                  <option value="Consultant">Consultant</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
 
               <div style={{ marginBottom: 24 }}>
