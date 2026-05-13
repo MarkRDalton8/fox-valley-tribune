@@ -85,14 +85,24 @@ export default function ProgressiveProfileModal() {
     <div style={{
       position: 'fixed', bottom: 24, right: 24, zIndex: 1100,
       background: '#1a1a1a', color: '#fff', borderRadius: 6,
-      padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 16,
-      boxShadow: '0 4px 16px rgba(0,0,0,0.3)', fontSize: 14,
+      padding: '20px 24px', maxWidth: 360, width: 'calc(100vw - 48px)',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.35)', fontSize: 14,
     }}>
-      <span>Thanks! Your profile has been updated.</span>
-      <button onClick={() => setShowToast(false)} style={{
-        background: 'none', border: 'none', color: '#aaa', fontSize: 18,
-        cursor: 'pointer', lineHeight: 1, padding: 0,
-      }}>×</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }} />
+          <span style={{ fontWeight: 700, fontSize: 15 }}>Profile saved</span>
+        </div>
+        <button onClick={() => setShowToast(false)} style={{
+          background: 'none', border: 'none', color: '#aaa', fontSize: 20,
+          cursor: 'pointer', lineHeight: 1, padding: 0, marginLeft: 12,
+        }}>×</button>
+      </div>
+      <p style={{ margin: 0, color: '#ccc', lineHeight: 1.55, fontSize: 13 }}>
+        Your role and company are now part of your first-party profile. Piano makes this data
+        immediately available for content personalization, audience segmentation, and targeted
+        campaigns — captured in a single interaction, actionable across every channel.
+      </p>
     </div>
   );
 
