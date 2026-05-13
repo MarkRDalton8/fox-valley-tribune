@@ -30,6 +30,13 @@ export default function ProgressiveProfileModal2() {
   const [dept, setDept] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (!showToast) return;
+    const t = setTimeout(() => setShowToast(false), 3000);
+    return () => clearTimeout(t);
+  }, [showToast]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -70,6 +77,7 @@ export default function ProgressiveProfileModal2() {
       if (!res.ok) throw new Error('Update failed');
       localStorage.setItem('piano_pp_form2_done', '1');
       setVisible(false);
+      setShowToast(true);
     } catch {
       setError('Something went wrong. Please try again.');
       setSubmitting(false);
@@ -80,6 +88,21 @@ export default function ProgressiveProfileModal2() {
     localStorage.setItem('piano_pp_form2_done', '1');
     setVisible(false);
   }
+
+  if (showToast) return (
+    <div style={{
+      position: 'fixed', bottom: 24, right: 24, zIndex: 1100,
+      background: '#1a1a1a', color: '#fff', borderRadius: 6,
+      padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 16,
+      boxShadow: '0 4px 16px rgba(0,0,0,0.3)', fontSize: 14,
+    }}>
+      <span>Thanks! Your profile has been updated.</span>
+      <button onClick={() => setShowToast(false)} style={{
+        background: 'none', border: 'none', color: '#aaa', fontSize: 18,
+        cursor: 'pointer', lineHeight: 1, padding: 0,
+      }}>×</button>
+    </div>
+  );
 
   if (!visible) return null;
 
