@@ -1,6 +1,7 @@
 import Script from 'next/script';
 import Header from '../components/Header';
 import SubscribeRibbon from '../components/SubscribeRibbon';
+import PageViewTracker from '../components/PageViewTracker';
 import { COLORS } from '../lib/data';
 import './globals.css';
 
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
+        <PageViewTracker />
         <Header />
 
         <main style={{ maxWidth: 1200, margin: '0 auto', padding: '36px 20px' }}>

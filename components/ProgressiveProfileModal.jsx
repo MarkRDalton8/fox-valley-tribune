@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { COLORS } from '../lib/data';
 
 const RESOURCE_ID = 'RAF1LL2';
+const PAGEVIEW_THRESHOLD = 3; // show after this many total site pageviews
+const PAGEVIEW_KEY = 'fvt_pageviews';
 
 export default function ProgressiveProfileModal() {
   const [visible, setVisible] = useState(false);
@@ -14,6 +16,9 @@ export default function ProgressiveProfileModal() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const pageviews = parseInt(localStorage.getItem(PAGEVIEW_KEY) || '0', 10);
+    if (pageviews < PAGEVIEW_THRESHOLD) return;
+
     window.tp = window.tp || [];
     window.tp.push(['init', function () {
       const user = window.tp.pianoId.getUser();
