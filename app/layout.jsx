@@ -1,6 +1,6 @@
 import Script from 'next/script';
 import Header from '../components/Header';
-import SubscribeRibbon from '../components/SubscribeRibbon';
+import SmartBanner from '../components/SmartBanner';
 import PageViewTracker from '../components/PageViewTracker';
 import { COLORS } from '../lib/data';
 import './globals.css';
@@ -94,7 +94,7 @@ export default function RootLayout({ children }) {
           </div>
         </footer>
 
-        <SubscribeRibbon />
+        <SmartBanner />
       </body>
     </html>
   );
