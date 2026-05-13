@@ -27,7 +27,7 @@ export default function Subscribe() {
   const handleSignIn = () => {
     const tp = window.tp || [];
     tp.push(['init', function () {
-      window.tp.pianoId.show({ screen: 'register', displayMode: 'modal' });
+      window.tp.pianoId.show({ screen: 'login', displayMode: 'modal' });
     }]);
   };
 
