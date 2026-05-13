@@ -27,6 +27,14 @@ export default function Header() {
       }
     };
 
+    const checkUser = () => {
+      if (window.tp?.pianoId?.getUser) {
+        applyUser(window.tp.pianoId.getUser());
+        return true;
+      }
+      return false;
+    };
+
     window.tp = window.tp || [];
 
     window.tp.push(['addHandler', 'loginSuccess', function (data) {
@@ -39,9 +47,17 @@ export default function Header() {
       window.location.href = '/account';
     }]);
 
+    // Handles case where Piano initializes after this useEffect runs
     window.tp.push(['init', function () {
       applyUser(window.tp.pianoId.getUser());
     }]);
+
+    // Handles case where Piano was already initialized before this useEffect ran
+    if (!checkUser()) {
+      const t1 = setTimeout(checkUser, 200);
+      const t2 = setTimeout(checkUser, 800);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    }
   }, []);
 
   const handleLogin = () => {
