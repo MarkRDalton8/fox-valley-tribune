@@ -29,7 +29,28 @@ export default function RootLayout({ children }) {
           id="piano-composer"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `(function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})("https://experience.tinypass.com/xbuilder/experience/load?aid=QiNgMM49pu");`,
+            __html: `(function(src){var a=document.createElement("script");a.type="text/javascript";a.async=true;a.src=src;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})("https://experience.tinypass.com/xbuilder/experience/load?aid=7gZBRaNFpu");`,
+          }}
+        />
+
+{/* Piano Analytics */}
+        <Script
+          id="piano-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(_config) {
+                var script = document.createElement("script");
+                script.src = "https://tag.aticdn.net/piano-analytics.js";
+                script.async = true;
+                script.dataset.config = JSON.stringify(_config);
+                document.head.appendChild(script);
+              })({
+                site: 639124,
+                collectDomain: "https://fjqqzhr.pa-cd.com",
+                instantTracking: true
+              });
+            `,
           }}
         />
 
