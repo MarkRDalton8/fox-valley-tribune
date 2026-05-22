@@ -75,10 +75,20 @@ export default function ArticleContent({ section, slug }) {
 
         {/* Header */}
         <div style={{ marginBottom: 32 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <span style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
               {article.category}
             </span>
+            {article.locked && article.section === 'sports' && (
+              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#1B5E20', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                Sports Pass
+              </span>
+            )}
+            {article.locked && article.section !== 'sports' && (
+              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#D97706', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                Premium
+              </span>
+            )}
           </div>
           <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 44, fontWeight: 700, color: COLORS.dark, lineHeight: 1.2, margin: '0 0 22px' }}>
             {article.title}

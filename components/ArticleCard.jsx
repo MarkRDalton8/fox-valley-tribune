@@ -11,6 +11,16 @@ export function ArticleCard({ article, featured = false }) {
             <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
               {article.category}
             </span>
+            {article.locked && article.section === 'sports' && (
+              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#1B5E20', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                Sports Pass
+              </span>
+            )}
+            {article.locked && article.section !== 'sports' && (
+              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#D97706', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                Premium
+              </span>
+            )}
           </div>
           <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 30, fontWeight: 700, color: COLORS.dark, margin: '0 0 14px', lineHeight: 1.25 }}>
             {article.title}
@@ -27,10 +37,20 @@ export function ArticleCard({ article, featured = false }) {
   return (
     <a href={`/${article.section}/${article.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
       <div style={{ background: 'white', border: `1px solid ${COLORS.border}`, borderLeft: `3px solid ${sectionColor}`, padding: '18px 22px' }}>
-        <div style={{ marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
           <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
             {article.category}
           </span>
+          {article.locked && article.section === 'sports' && (
+            <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#1B5E20', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+              Sports Pass
+            </span>
+          )}
+          {article.locked && article.section !== 'sports' && (
+            <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#D97706', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+              Premium
+            </span>
+          )}
         </div>
         <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 19, fontWeight: 700, color: COLORS.dark, margin: '0 0 8px', lineHeight: 1.3 }}>
           {article.title}

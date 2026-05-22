@@ -22,7 +22,7 @@ const SECTIONS = ['news', 'sports', 'opinion', 'local-politics', 'lifestyle'];
 
 const SECTION_PROMPTS = {
   news: 'local government, community events, education, business, or public services in the Fox Valley region of northeastern Illinois. Cities include Geneva, Batavia, St. Charles, Aurora, and Elgin in Kane and Kendall counties.',
-  sports: 'high school or youth sports in the Fox Valley region. Sports include soccer, wrestling, swimming, baseball, basketball, cross country, volleyball, or local road races and recreational leagues.',
+  sports: 'high school or youth sports in the Fox Valley region. Sports include soccer, wrestling, swimming, baseball, basketball, cross country, volleyball, or local road races and recreational leagues. Premium Sports Pass articles cover recruiting, in-depth game analysis, athlete profiles, and season previews. Free articles cover scores, schedules, and event announcements.',
   opinion: 'an editorial, letter to the editor, or commentary about a local issue in the Fox Valley area. Topics might include local government decisions, school funding, development, environment, transportation, or community life.',
   'local-politics': 'elections, city council proceedings, county government, school board decisions, or local political developments in Fox Valley municipalities.',
   lifestyle: 'daily life, home and interior design, personal development, wellness and fitness, food and cooking, gardening, or community interests relevant to Fox Valley suburban families.',
@@ -133,6 +133,7 @@ Return a JSON object with exactly these fields:
 
 Rules:
 - locked should be true for roughly 70% of articles, false for shorter community items
+- For sports articles specifically: locked=true for recruiting, game analysis, athlete features, season previews; locked=false for scores, schedules, event announcements
 - body must be 4-6 paragraphs as an array of plain strings
 - No markdown in body text — plain prose only
 - The slug must be descriptive and unique
@@ -277,6 +278,15 @@ async function main() {
   execSync('git push', { stdio: 'inherit', cwd: repoRoot });
 
   console.log('[publish-daily] Done — pushed to GitHub. Vercel will redeploy shortly.');
+
+  // Sync new article into the traffic simulator catalog
+  try {
+    const simScript = path.join(__dirname, '../../piano-traffic-sim/scripts/sync_catalog.py');
+    execSync(`python3 "${simScript}"`, { stdio: 'inherit', cwd: repoRoot });
+    console.log('[publish-daily] Simulator catalog synced.');
+  } catch (err) {
+    console.error('[publish-daily] Catalog sync failed (non-fatal):', err.message);
+  }
 
   await sendSummaryEmail(article, section, nextId).catch(err => {
     console.error('[publish-daily] Email failed:', err.message);
