@@ -59,7 +59,10 @@ export default function ArticleContent({ section, slug }) {
     <>
       <PianoInit
         section={section}
-        tags={article.tags || [section, article.category?.toLowerCase()].filter(Boolean)}
+        tags={[
+          ...(article.tags || [section, article.category?.toLowerCase()].filter(Boolean)),
+          ...(article.locked ? [section === 'sports' ? 'sports-pass' : 'premium'] : []),
+        ]}
         contentCreator={article.byline}
       />
 
