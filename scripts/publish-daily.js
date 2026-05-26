@@ -183,7 +183,7 @@ async function sendSummaryEmail(article, section, id) {
     return;
   }
 
-  const BASE_URL = 'https://fox-valley-tribune.vercel.app';
+  const BASE_URL = 'https://foxvalley.pianodemo.com';
   const articleUrl = `${BASE_URL}/${section}/${article.slug}`;
   const sectionLabel = section.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   const date = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });

@@ -6,7 +6,7 @@ import { COLORS } from '../lib/data';
 import './globals.css';
 
 export const metadata = {
-  metadataBase: new URL('https://fox-valley-tribune.vercel.app'),
+  metadataBase: new URL('https://foxvalley.pianodemo.com'),
   title: 'Fox Valley Tribune',
   description: 'Your trusted source for news, sports, opinion, and local politics from the Fox Valley region.',
   openGraph: {

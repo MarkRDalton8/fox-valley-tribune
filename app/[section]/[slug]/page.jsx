@@ -20,7 +20,7 @@ export function generateMetadata({ params }) {
   if (!article) return { title: 'Article Not Found — Fox Valley Tribune' };
 
   const sectionLabel = SECTION_LABELS[section] || section;
-  const canonicalUrl = `https://fox-valley-tribune.vercel.app/${section}/${slug}`;
+  const canonicalUrl = `https://foxvalley.pianodemo.com/${section}/${slug}`;
   const kw = SECTION_KEYWORDS[section] || 'news';
   const imageUrl = `https://loremflickr.com/1200/630/${kw}?lock=${article.id}`;
   const parsedDate = article.date ? new Date(article.date) : null;
