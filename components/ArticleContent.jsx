@@ -66,85 +66,98 @@ export default function ArticleContent({ section, slug }) {
         contentCreator={article.byline}
       />
 
-      <div style={{ maxWidth: 760, margin: '0 auto' }}>
-        {/* Breadcrumb */}
-        <div style={{ fontSize: 12, color: '#999', marginBottom: 22 }}>
-          <a href="/" style={{ color: '#999', textDecoration: 'none' }}>Home</a>
-          {' · '}
-          <a href={`/${section}`} style={{ color: sectionColor, textDecoration: 'none', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            {sectionLabel}
-          </a>
-        </div>
+      <div className="article-layout" style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '760px 1fr', gap: 40 }}>
+        {/* Main article column */}
+        <div>
+          {/* Breadcrumb */}
+          <div style={{ fontSize: 12, color: '#999', marginBottom: 22 }}>
+            <a href="/" style={{ color: '#999', textDecoration: 'none' }}>Home</a>
+            {' · '}
+            <a href={`/${section}`} style={{ color: sectionColor, textDecoration: 'none', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              {sectionLabel}
+            </a>
+          </div>
 
-        {/* Header */}
-        <div style={{ marginBottom: 32 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-            <span style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
-              {article.category}
-            </span>
-            {article.locked && article.section === 'sports' && (
-              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#1B5E20', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
-                Sports Pass
+          {/* Header */}
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <span style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: sectionColor }}>
+                {article.category}
               </span>
-            )}
-            {article.locked && article.section !== 'sports' && (
-              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#D97706', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
-                Premium
-              </span>
+              {article.locked && article.section === 'sports' && (
+                <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#1B5E20', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                  Sports Pass
+                </span>
+              )}
+              {article.locked && article.section !== 'sports' && (
+                <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: '#D97706', color: 'white', padding: '2px 7px', borderRadius: 2 }}>
+                  Premium
+                </span>
+              )}
+            </div>
+            <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 44, fontWeight: 700, color: COLORS.dark, lineHeight: 1.2, margin: '0 0 22px' }}>
+              {article.title}
+            </h1>
+            <div style={{ display: 'flex', gap: 20, fontSize: 13, color: '#888', borderTop: `1px solid ${COLORS.border}`, borderBottom: `1px solid ${COLORS.border}`, padding: '12px 0' }}>
+              <span>{article.byline}</span>
+              <span>{article.date}</span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div style={{ overflow: 'hidden' }}>
+            <img
+              src={articleImage}
+              alt=""
+              style={{ float: 'left', width: 160, height: 160, marginRight: 20, marginBottom: 10, marginTop: 4, borderRadius: 2, display: 'block' }}
+            />
+            {visibleBody.map((para, i) => (
+              <p key={i} style={PARA_STYLE}>{para}</p>
+            ))}
+
+            {/* Piano paywall gate — Composer renders its experience here */}
+            {article.locked && !hasAccess && (
+              <div className="piano-container" />
             )}
           </div>
-          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 44, fontWeight: 700, color: COLORS.dark, lineHeight: 1.2, margin: '0 0 22px' }}>
-            {article.title}
-          </h1>
-          <div style={{ display: 'flex', gap: 20, fontSize: 13, color: '#888', borderTop: `1px solid ${COLORS.border}`, borderBottom: `1px solid ${COLORS.border}`, padding: '12px 0' }}>
-            <span>{article.byline}</span>
-            <span>{article.date}</span>
-          </div>
-        </div>
 
-        {/* Body */}
-        <div style={{ overflow: 'hidden' }}>
-          <img
-            src={articleImage}
-            alt=""
-            style={{ float: 'left', width: 160, height: 160, marginRight: 20, marginBottom: 10, marginTop: 4, borderRadius: 2, display: 'block' }}
-          />
-          {visibleBody.map((para, i) => (
-            <p key={i} style={PARA_STYLE}>{para}</p>
-          ))}
+          {/* Sports newsletter Piano template container */}
+          {section === 'sports' && (
+            <div className="piano-sports-newsletter" style={{ background: COLORS.primary, marginTop: 56 }} />
+          )}
 
-          {/* Piano paywall gate — Composer renders its experience here */}
-          {article.locked && !hasAccess && (
-            <div className="piano-container" />
+          {/* Local politics email signup Piano template container */}
+          {section === 'local-politics' && (
+            <div className="piano-politics-signup" style={{ marginTop: 56 }} />
+          )}
+
+          {/* Progressive profiling modals — local politics only */}
+          {section === 'local-politics' && <ProgressiveProfileModal />}
+          {section === 'local-politics' && <ProgressiveProfileModal2 />}
+
+          {/* Lifestyle newsletter Piano template container */}
+          {section === 'lifestyle' && (
+            <div className="piano-lifestyle-newsletter" style={{ marginTop: 56 }} />
+          )}
+
+          {showFull && (
+            <div style={{ borderTop: `1px solid ${COLORS.border}`, marginTop: 48, paddingTop: 24 }}>
+              <a href={`/${section}`} style={{ color: sectionColor, textDecoration: 'none', fontSize: 14, fontWeight: 700 }}>
+                ← More {sectionLabel}
+              </a>
+            </div>
           )}
         </div>
 
-        {/* Sports newsletter Piano template container */}
-        {section === 'sports' && (
-          <div className="piano-sports-newsletter" style={{ background: COLORS.primary, marginTop: 56 }} />
-        )}
-
-        {/* Local politics email signup Piano template container */}
-        {section === 'local-politics' && (
-          <div className="piano-politics-signup" style={{ marginTop: 56 }} />
-        )}
-
-        {/* Progressive profiling modals — local politics only */}
-        {section === 'local-politics' && <ProgressiveProfileModal />}
-        {section === 'local-politics' && <ProgressiveProfileModal2 />}
-
-        {/* Lifestyle newsletter Piano template container */}
-        {section === 'lifestyle' && (
-          <div className="piano-lifestyle-newsletter" style={{ marginTop: 56 }} />
-        )}
-
-        {showFull && (
-          <div style={{ borderTop: `1px solid ${COLORS.border}`, marginTop: 48, paddingTop: 24 }}>
-            <a href={`/${section}`} style={{ color: sectionColor, textDecoration: 'none', fontSize: 14, fontWeight: 700 }}>
-              ← More {sectionLabel}
-            </a>
+        {/* Right rail — Piano Content recommendations */}
+        <aside>
+          <div style={{ position: 'sticky', top: 80 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', color: '#888', borderBottom: `3px solid ${COLORS.primary}`, paddingBottom: 8, marginBottom: 16 }}>
+              Recommended
+            </div>
+            <div className="piano-content-recommendations" />
           </div>
-        )}
+        </aside>
       </div>
     </>
   );

@@ -14,3 +14,11 @@ a { color: inherit; }
   background-image: linear-gradient(to top, #ffffff 0%, #ffffff 20%, rgba(255,255,255,0) 100%);
 }
 .piano-container--active ~ * { display: none; }
+
+/* Article layout — collapse to single column on narrow screens */
+@media (max-width: 900px) {
+  .article-layout {
+    grid-template-columns: 1fr !important;
+    max-width: 760px !important;
+  }
+}

@@ -1,7 +1,7 @@
 # Fox Valley Tribune — Claude Session Guide
 
 ## What This Is
-A Piano demo news site for the Fox Valley region of northeastern Illinois. Built entirely to showcase Piano's Composer, Analytics, ESP, Content, Insight, and Audience products in a realistic local newspaper context. Deployed on Vercel at **https://fox-valley-tribune.vercel.app**.
+A Piano demo news site for the Fox Valley region of northeastern Illinois. Built entirely to showcase Piano's Composer, Analytics, ESP, Content, Insight, and Audience products in a realistic local newspaper context. Deployed on Vercel at **https://foxvalley.pianodemo.com**.
 
 ## Tech Stack
 - **Next.js 14** (App Router, static site generation)
@@ -79,6 +79,7 @@ Empty divs that Piano Composer injects experiences into. Add new ones in `compon
 | `piano-sports-newsletter` | Sports articles | Newsletter signup |
 | `piano-politics-signup` | Local Politics articles | Email signup |
 | `piano-lifestyle-newsletter` | Lifestyle articles | Newsletter signup |
+| `piano-content-recommendations` | Article right rail | 4-article content recommendations widget |
 
 ### OG + Meta Tags (article pages)
 All set in `generateMetadata` in `app/[section]/[slug]/page.jsx`:
