@@ -89,6 +89,19 @@ ${bodyLines}
   fs.writeFileSync(DATA_FILE, updated);
 }
 
+function getExistingTitlesForSection(section) {
+  const content = fs.readFileSync(DATA_FILE, 'utf8');
+  const titles = [];
+  const sectionRe = new RegExp(`section:\\s*'${section}'`, 'g');
+  const blocks = content.split(/\n  \{/);
+  for (const block of blocks) {
+    if (!sectionRe.test(block)) continue;
+    const titleMatch = block.match(/title:\s*'([^']+)'/);
+    if (titleMatch) titles.push(titleMatch[1]);
+  }
+  return titles;
+}
+
 async function generateArticle(section) {
   const { OPENWEBUI_API_KEY, OPENWEBUI_ENDPOINT, OPENWEBUI_MODEL } = process.env;
 
@@ -103,13 +116,18 @@ async function generateArticle(section) {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
   });
 
+  const existingTitles = getExistingTitlesForSection(section);
+  const avoidBlock = existingTitles.length > 0
+    ? `\nALREADY PUBLISHED in this section — choose a DIFFERENT topic and angle, do not repeat any of these:\n${existingTitles.map(t => `- ${t}`).join('\n')}\n`
+    : '';
+
   const systemPrompt = `You are a staff writer for the Fox Valley Tribune, a community newspaper serving northeastern Illinois.
 Write in a clear, factual AP-style voice with local specificity. Use real-sounding names, places, and details.
 Return ONLY valid JSON — no markdown, no explanation, no code fences.`;
 
   const userPrompt = `Write a new article for the ${section} section of the Fox Valley Tribune.
 The article should be about: ${SECTION_PROMPTS[section]}
-${buildPersonaBlock(section)}
+${avoidBlock}${buildPersonaBlock(section)}
 
 Today is ${today}. Make the article feel timely and current.
 
