@@ -14,9 +14,9 @@ const TAG_IMAGE_PRIORITY = [
   'running', 'road-racing', 'recruiting',
   'health', 'education', 'environment', 'elections', 'transportation',
   'business-and-finance', 'infrastructure',
-  'food-and-drink', 'cooking', 'gardening', 'home-design', 'interior',
-  'wellness', 'fitness', 'outdoors', 'family-and-parenting',
-  'personal-development', 'arts-and-entertainment',
+  'arts-and-entertainment', 'food-and-drink', 'cooking', 'gardening',
+  'home-design', 'interior', 'wellness', 'fitness', 'outdoors',
+  'family-and-parenting', 'personal-development',
   'high-school-sports', 'youth-sports',
 ];
 
@@ -57,7 +57,7 @@ export function generateMetadata({ params }) {
   const sectionLabel = SECTION_LABELS[section] || section;
   const canonicalUrl = `https://foxvalley.pianodemo.com/${section}/${slug}`;
   const kw = getImageKeyword(section, article.tags);
-  const imageUrl = `https://loremflickr.com/1200/630/${kw}?lock=${article.id}`;
+  const imageUrl = `https://picsum.photos/seed/${kw}-${article.id}/1200/630`;
   const parsedDate = article.date ? new Date(article.date) : null;
   const pubDate = parsedDate && !isNaN(parsedDate) ? parsedDate.toISOString() : new Date().toISOString();
 

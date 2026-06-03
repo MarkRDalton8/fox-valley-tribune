@@ -20,9 +20,9 @@ const TAG_IMAGE_PRIORITY = [
   'running', 'road-racing', 'recruiting',
   'health', 'education', 'environment', 'elections', 'transportation',
   'business-and-finance', 'infrastructure',
-  'food-and-drink', 'cooking', 'gardening', 'home-design', 'interior',
-  'wellness', 'fitness', 'outdoors', 'family-and-parenting',
-  'personal-development', 'arts-and-entertainment',
+  'arts-and-entertainment', 'food-and-drink', 'cooking', 'gardening',
+  'home-design', 'interior', 'wellness', 'fitness', 'outdoors',
+  'family-and-parenting', 'personal-development',
   'high-school-sports', 'youth-sports',
 ];
 
@@ -62,11 +62,11 @@ function getArticleImageUrl(section, id, width, height, tags = []) {
   const tagSet = new Set(tags || []);
   for (const tag of TAG_IMAGE_PRIORITY) {
     if (tagSet.has(tag)) {
-      return `https://loremflickr.com/${width}/${height}/${TAG_IMAGE_KEYWORDS[tag]}?lock=${id}`;
+      return `https://picsum.photos/seed/${TAG_IMAGE_KEYWORDS[tag]}-${id}/${width}/${height}`;
     }
   }
   const kw = SECTION_KEYWORDS[section] || 'news';
-  return `https://loremflickr.com/${width}/${height}/${kw}?lock=${id}`;
+  return `https://picsum.photos/seed/${kw}-${id}/${width}/${height}`;
 }
 
 const PARA_STYLE = {
