@@ -14,7 +14,57 @@ const SECTION_KEYWORDS = {
   lifestyle: 'lifestyle,home',
 };
 
-function getArticleImageUrl(section, id, width, height) {
+// Priority order: most specific/visual first. First matching tag wins.
+const TAG_IMAGE_PRIORITY = [
+  'soccer', 'football', 'basketball', 'baseball', 'wrestling', 'swimming',
+  'running', 'road-racing', 'recruiting',
+  'health', 'education', 'environment', 'elections', 'transportation',
+  'business-and-finance', 'infrastructure',
+  'food-and-drink', 'cooking', 'gardening', 'home-design', 'interior',
+  'wellness', 'fitness', 'outdoors', 'family-and-parenting',
+  'personal-development', 'arts-and-entertainment',
+  'high-school-sports', 'youth-sports',
+];
+
+const TAG_IMAGE_KEYWORDS = {
+  soccer: 'soccer',
+  football: 'football',
+  basketball: 'basketball',
+  baseball: 'baseball',
+  wrestling: 'wrestling',
+  swimming: 'swimming,pool',
+  running: 'running',
+  'road-racing': 'running,race',
+  recruiting: 'stadium,sports',
+  'high-school-sports': 'athlete,sports',
+  'youth-sports': 'children,sports',
+  health: 'hospital,healthcare',
+  education: 'school,classroom',
+  environment: 'nature,environment',
+  elections: 'election,voting',
+  transportation: 'transit,transportation',
+  'business-and-finance': 'business,office',
+  infrastructure: 'construction,bridge',
+  'food-and-drink': 'food,restaurant',
+  cooking: 'cooking,kitchen',
+  gardening: 'garden,plants',
+  'home-design': 'interior,design',
+  interior: 'interior,home',
+  wellness: 'wellness,yoga',
+  fitness: 'fitness,exercise',
+  outdoors: 'nature,outdoor',
+  'family-and-parenting': 'family,children',
+  'personal-development': 'inspiration,books',
+  'arts-and-entertainment': 'art,performance',
+};
+
+function getArticleImageUrl(section, id, width, height, tags = []) {
+  const tagSet = new Set(tags || []);
+  for (const tag of TAG_IMAGE_PRIORITY) {
+    if (tagSet.has(tag)) {
+      return `https://loremflickr.com/${width}/${height}/${TAG_IMAGE_KEYWORDS[tag]}?lock=${id}`;
+    }
+  }
   const kw = SECTION_KEYWORDS[section] || 'news';
   return `https://loremflickr.com/${width}/${height}/${kw}?lock=${id}`;
 }
@@ -53,7 +103,7 @@ export default function ArticleContent({ section, slug }) {
   const sectionColor = SECTION_COLORS[section] || COLORS.dark;
   const showFull = !article.locked || hasAccess;
   const visibleBody = showFull ? article.body : article.body.slice(0, 2);
-  const articleImage = getArticleImageUrl(section, article.id, 160, 160);
+  const articleImage = getArticleImageUrl(section, article.id, 160, 160, article.tags);
 
   return (
     <>
